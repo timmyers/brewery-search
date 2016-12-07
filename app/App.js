@@ -74,4 +74,4 @@ const App = connect((state) => {
 })
 
 export {history}
-export default App;
+export default App
