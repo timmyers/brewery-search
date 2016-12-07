@@ -6,7 +6,7 @@ import Text from 'components/Text';
 
 import HeaderDiv from './HeaderDiv'
 
-export const Header = () => (
+const Header = () => (
 	<HeaderDiv>
 		<HorizontalFlex width="20%">
 		</HorizontalFlex>
@@ -22,4 +22,5 @@ export const Header = () => (
 	</HeaderDiv>
 );
 
+export {HeaderLink}
 export default Header

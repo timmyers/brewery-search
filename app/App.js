@@ -13,7 +13,7 @@ import LoginPage from 'containers/LoginPage';
 
 import {NAVIGATE} from 'store/location';
 
-export const history = createBrowserHistory();
+const history = createBrowserHistory();
 
 const App = connect((state) => {
 	console.log(state);
@@ -73,4 +73,5 @@ const App = connect((state) => {
 	}
 })
 
+export {history}
 export default App;

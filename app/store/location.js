@@ -1,4 +1,5 @@
-import {history} from '../App';
+import {history} from 'app';
+console.log(history);
 // ------------------------------------
 // Constants
 // ------------------------------------
