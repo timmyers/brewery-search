@@ -1,4 +1,4 @@
-import {history} from 'App';
+import {history} from 'app';
 
 // ------------------------------------
 // Constants
