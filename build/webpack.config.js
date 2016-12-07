@@ -27,7 +27,8 @@ const APP_ENTRY = paths.client('main.js')
 
 webpackConfig.entry = {
   app : __DEV__
-    ? ['react-hot-loader/patch', APP_ENTRY, `webpack-hot-middleware/client?path=${config.compiler_public_path}__webpack_hmr`]
+    ? ['react-hot-loader/patch', APP_ENTRY,
+      `webpack-hot-middleware/client?path=${config.compiler_public_path}__webpack_hmr`]
     : [APP_ENTRY],
   vendor : config.compiler_vendors
 }

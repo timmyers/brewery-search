@@ -16,7 +16,7 @@
       }
     },
     "deploy": {
-      "command": "npm run lint && npm run test && npm run clean && npm run compile",
+      "command": "npm run lint && npm run clean && npm run compile",
       "env": {
         "DEBUG": "app:*"
       }
@@ -75,12 +75,29 @@
     "react-router-addons-controlled": "^0.0.1",
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",
+    "rimraf": "^2.5.4",
     "styled-components": "^1.1.1",
     "webpack": "^1.13.3",
     "webpack-dev-middleware": "^1.8.4",
     "webpack-hot-middleware": "^2.13.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "babel-eslint": "^7.1.0",
+    "eslint": "^3.11.1",
+    "eslint-config-standard": "^6.2.1",
+    "eslint-config-standard-react": "^4.0.0",
+    "eslint-plugin-babel": "latest",
+    "eslint-plugin-promise": "^3.4.0",
+    "eslint-plugin-react": "latest",
+    "eslint-plugin-standard": "^2.0.1",
+    "karma": "^1.0.0",
+    "karma-coverage": "^1.0.0",
+    "karma-mocha": "^1.0.1",
+    "karma-mocha-reporter": "^2.0.0",
+    "karma-phantomjs-launcher": "^1.0.2",
+    "karma-webpack-with-fast-source-maps": "^1.9.2",
+    "mocha": "^3.0.1"
+  },
   "engines": {
     "node": "6.9.2"
   },
