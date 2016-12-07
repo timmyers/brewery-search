@@ -10,10 +10,10 @@ const SimpleLayout = ({ children }) => (
     <VerticalFlex height='10%'>
       <Header />
     </VerticalFlex>
-    <HorizontalFlex height='82%'>
+    <HorizontalFlex height='85%' backgroundColor="#FEFFEF">
       {children}
     </HorizontalFlex>
-    <VerticalFlex height='8%'>
+    <VerticalFlex height='5%'>
       <Footer />
     </VerticalFlex>
   </VerticalFlex>

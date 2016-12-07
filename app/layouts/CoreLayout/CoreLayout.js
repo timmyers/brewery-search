@@ -10,15 +10,15 @@ const CoreLayout = ({ children }) => (
     <VerticalFlex height='10%'>
       <Header />
     </VerticalFlex>
-    <HorizontalFlex height='82%'>
+    <HorizontalFlex height='85%'>
       <HorizontalFlex width='70%'>
       	{children[0]}
       </HorizontalFlex>
-      <HorizontalFlex width='30%' backgroundColor="CadetBlue">
+      <HorizontalFlex width='30%' backgroundColor="#FAFAFA">
       	{children[1]}
       </HorizontalFlex>
     </HorizontalFlex>
-    <VerticalFlex height='8%'>
+    <VerticalFlex height='5%'>
       <Footer />
     </VerticalFlex>
   </VerticalFlex>

@@ -1,5 +1,7 @@
-import React, { Component, PropTypes } from 'react';
-import Router from 'react-router/BrowserRouter'
+import React, { Component, PropTypes } from 'react'
+import { Provider, connect } from 'react-redux';
+import Router from 'react-router-addons-controlled/ControlledBrowserRouter'
+import createBrowserHistory from 'history/createBrowserHistory'
 import Match from 'react-router/Match'
 import Link from 'react-router/Link'
 
@@ -7,23 +9,68 @@ import VerticalFlex from 'components/VerticalFlex';
 
 import HomePage from 'containers/HomePage';
 import AboutPage from 'containers/AboutPage';
+import LoginPage from 'containers/LoginPage';
 
-export default class App extends Component {
+import {NAVIGATE} from 'store/location';
+
+export const history = createBrowserHistory();
+
+const App = connect((state) => {
+	console.log(state);
+  return {
+    location: state.router.location,
+    action: state.router.action
+  }
+})(class App extends Component {
 	static propTypes = {
-	}
-
-	shouldComponentUpdate() {
-		return false;
-	}
+    location: PropTypes.object,
+    action: PropTypes.string,
+    dispatch: PropTypes.func,
+    store  : PropTypes.object.isRequired
+  }
 
 	render() {
+    const { store } = this.props;
+
     return (
-  		<Router>
-	  		<VerticalFlex>
-	    		<Match exactly pattern="/" component={HomePage} />
-	    		<Match pattern="/about" component={AboutPage} />
-    		</VerticalFlex>
-  		</Router>
+      <Provider store={store}>
+	  		<Router history={history}
+				        location={this.props.location}
+				        action={this.props.action}
+				        onChange={(location, action) => {
+				        	console.log("router onChange");
+				        	console.log(location);
+				          // you must always dispatch a `SYNC` action,
+				          // because, guess what? you can't actual control the browser history!
+				          // anyway, use your current action not "SYNC"
+				          if (action === 'SYNC') {
+				            this.props.dispatch({
+				              type: NAVIGATE,
+				              location,
+				              action: this.props.action
+				            })
+				          } else if (!window.block) {
+				            // if you want to block transitions go into the console and type in
+				            // `window.block = true` and transitions won't happen anymore
+				            this.props.dispatch({
+				              type: NAVIGATE,
+				              location,
+				              action
+				            })
+				          } else {
+				            console.log('blocked!') // eslint-disable-line
+				          }
+				        }}
+	  		>
+		  		<VerticalFlex>
+		    		<Match exactly pattern="/" component={HomePage} />
+		    		<Match pattern="/about" component={AboutPage} />
+		    		<Match pattern="/login" component={LoginPage} />
+	    		</VerticalFlex>
+	  		</Router>
+  		</Provider>
     );
 	}
-}
+})
+
+export default App;

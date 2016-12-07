@@ -1,13 +1,13 @@
 import React from 'react';
 
 import SimpleLayout from 'layouts/SimpleLayout';
-import Text from 'components/Text'
+
+import LoginBox from './LoginBox';
 
 const AboutPage = () => (
 	<SimpleLayout>
-		<Text>
-			{"Welcome to my beer app!"}
-		</Text>
+		<LoginBox>
+		</LoginBox>
   </SimpleLayout>
 );
 
