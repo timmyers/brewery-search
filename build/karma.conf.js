@@ -71,4 +71,6 @@ if (config.globals.__COVERAGE__) {
   }]
 }
 
+console.log(karmaConfig.webpack.resolve);
+
 module.exports = (cfg) => cfg.set(karmaConfig)

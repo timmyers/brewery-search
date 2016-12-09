@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom'
 import createStore from './store/createStore';
 import { AppContainer } from 'react-hot-loader'
-import App from './App'
+import App from 'containers/App'
 
 // ========================================================
 // Store Instantiation
@@ -38,8 +38,8 @@ if (__DEV__) {
 if (__DEV__) {
   // Hot Module Replacement API
   if (module.hot) {
-    module.hot.accept('./App', () => {
-      const NextApp = require('./App').default;
+    module.hot.accept('containers/App', () => {
+      const NextApp = require('containers/App').default;
       ReactDOM.render(
         <AppContainer>
           <NextApp store={store} />

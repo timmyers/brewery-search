@@ -4,8 +4,8 @@ const webpack = require('webpack')
 const webpackConfig = require('../build/webpack.config')
 const config = require('../config')
 const compress = require('compression')
+let {server, app} = require('./api')
 
-const app = express()
 const paths = config.utils_paths
 
 // This rewrites all routes requests to the root /index.html file
@@ -54,4 +54,4 @@ if (config.env === 'development') {
   app.use(express.static(paths.dist()))
 }
 
-module.exports = app
+module.exports = server
