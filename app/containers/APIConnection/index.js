@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 // ------------------------------------
 export const CONNECTED = 'CONNECTED'
 export const DISCONNECTED = 'DISCONNECTED'
+export const ADD_BREWERIES = 'ADD_BREWERIES'
 
 // ------------------------------------
 // Actions
@@ -16,8 +17,16 @@ function connected(connected = true) {
   }
 }
 
+function addBreweries(breweries) {
+	return {
+		type: ADD_BREWERIES,
+		payload: breweries
+	}
+}
+
 const actions = {
-  connected
+  connected,
+  addBreweries
 }
 
 // ------------------------------------
@@ -30,6 +39,10 @@ const ACTION_HANDLERS = {
   },
   [DISCONNECTED] : (state, action) => {
   	state.connected = false
+  	return state
+  },
+  [ADD_BREWERIES] : (state, action) => {
+  	state.breweries = action.payload
   	return state
   }
 }

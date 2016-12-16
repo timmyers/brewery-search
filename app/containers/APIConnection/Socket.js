@@ -3,7 +3,8 @@ import Websocket from 'reconnecting-websocket'
 
 export default class Socket extends Component {
 	static propTypes = {
-		connected: PropTypes.func.isRequired
+		connected: PropTypes.func.isRequired,
+		addBreweries: PropTypes.func.isRequired
 	}
 
 	constructor(props) {
@@ -40,6 +41,9 @@ export default class Socket extends Component {
 				if (json.hasOwnProperty('action')) {
 					let action = json.action;
 					console.log('Got ' + action + ': ' + json)
+					if (action == "breweries") {
+						this.props.addBreweries(json.breweries)
+					}
 				}
 			}
 			catch (e) {
