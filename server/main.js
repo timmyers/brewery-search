@@ -4,7 +4,7 @@ const webpack = require('webpack')
 const webpackConfig = require('../build/webpack.config')
 const config = require('../config')
 const compress = require('compression')
-let {server, app} = require('./api')
+let { server, app } = require('./api')
 
 const paths = config.utils_paths
 
