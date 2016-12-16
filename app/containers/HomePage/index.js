@@ -10,11 +10,11 @@ const HomePage = () => (
       bootstrapURLKeys={{
         key: "AIzaSyDk64oknr1zOjz-loIogxns15U1ZWV5luc"
       }}
-      defaultCenter={ {lat: 39.629727, lng: -104.900864} }
+      defaultCenter={ {lat: 39.75072, lng: -104.992504} }
       zoom={14}
     >
     </GoogleMap>
-    <span>hi</span>
+    <span>tester</span>
   </CoreLayout>
 );
 

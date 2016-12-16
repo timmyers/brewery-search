@@ -6,7 +6,7 @@ import Text from 'components/Text'
 const AboutPage = () => (
 	<SimpleLayout>
 		<Text>
-			{"Welcome to my beer app!"}
+			{"Welcome to my awesome beer app!"}
 		</Text>
   </SimpleLayout>
 );

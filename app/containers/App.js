@@ -4,7 +4,6 @@ import Router from 'react-router-addons-controlled/ControlledBrowserRouter'
 import createBrowserHistory from 'history/createBrowserHistory'
 import Match from 'react-router/Match'
 import Link from 'react-router/Link'
-import SimpleWebsocket from 'simple-websocket'
 
 import VerticalFlex from 'components/VerticalFlex';
 
@@ -12,25 +11,12 @@ import HomePage from 'containers/HomePage';
 import AboutPage from 'containers/AboutPage';
 import LoginPage from 'containers/LoginPage';
 
-import {NAVIGATE} from 'store/location';
+import APIConnection from './APIConnection'
 
-var loc = window.location, new_uri;
-if (loc.protocol === "https:") {
-    new_uri = "wss:";
-} else {
-    new_uri = "ws:";
-}
-new_uri += "//" + loc.host;
-new_uri += loc.pathname + "api";
-console.log(new_uri);
-var ws = new SimpleWebsocket(new_uri)
-ws.on('connect', function () {
-  // socket is connected!
- ws.send('sup!')
-})
-ws.on('data', function (data) {
-  console.log('got message: ' + data)
-})
+//let api = new APIConnection()
+
+//import {NAVIGATE} from 'store/location'
+export const NAVIGATE = 'NAVIGATE';
 
 const history = createBrowserHistory();
 console.log(history);
@@ -80,6 +66,7 @@ const App = connect((state) => {
 			        }}
 	  		>
 		  		<VerticalFlex>
+		      		<APIConnection />
 		    		<Match exactly pattern="/" component={HomePage} />
 		    		<Match pattern="/about" component={AboutPage} />
 		    		<Match pattern="/login" component={LoginPage} />
