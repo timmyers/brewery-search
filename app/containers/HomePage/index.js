@@ -5,7 +5,9 @@ import GoogleMap from 'google-map-react';
 
 import CoreLayout from 'layouts/CoreLayout';
 
-const HomePage = (props) => (
+const HomePage = (props) => {
+  console.log(props)
+  return (
   <CoreLayout>
     <GoogleMap
       bootstrapURLKeys={{
@@ -14,20 +16,24 @@ const HomePage = (props) => (
       defaultCenter={ {lat: 39.761502, lng: -104.981076} }
       zoom={16}
     >
-      {props.breweries && props.breweries.map(brewery =>
+      {props.breweries.map(brewery =>
         <img src={brewery.imgSrc} lat={brewery.lat} lng={brewery.lng} width="20px" height="20px"/>
       )}
     </GoogleMap>
-    <span>tester</span>
+    <span>List</span>
   </CoreLayout>
-);
+)};
 
 HomePage.propTypes = {
   breweries: PropTypes.array
 }
 
-const mapStateToProps = (state) => ({
-  breweries : state.api.breweries
-})
+const mapStateToProps = (state) => {
+  console.log('mapstatetoprops')
+  console.log(state)
+  return {
+    breweries: state.api.breweries
+  }
+}
 
 export default connect(mapStateToProps)(HomePage);

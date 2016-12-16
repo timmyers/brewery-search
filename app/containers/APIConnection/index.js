@@ -34,16 +34,19 @@ const actions = {
 // ------------------------------------
 const ACTION_HANDLERS = {
   [CONNECTED] : (state, action) => {
-  	state.connected = true
-  	return state
+  	return Object.assign({}, state, {
+    	connected: true
+    })
   },
   [DISCONNECTED] : (state, action) => {
-  	state.connected = false
-  	return state
+  	return Object.assign({}, state, {
+    	connected: false
+    })
   },
   [ADD_BREWERIES] : (state, action) => {
-  	state.breweries = action.payload
-  	return state
+  	return Object.assign({}, state, {
+    	breweries: action.payload
+    })
   }
 }
 
@@ -51,7 +54,8 @@ const ACTION_HANDLERS = {
 // Reducer
 // ------------------------------------
 const initialState = {
-	connected: false
+	connected: false,
+	breweries: []
 }
 
 export function reducer (state = initialState, action) {
