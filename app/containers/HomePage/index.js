@@ -17,7 +17,7 @@ const HomePage = (props) => {
       zoom={16}
     >
       {props.breweries.map(brewery =>
-        <img src={brewery.imgSrc} lat={brewery.lat} lng={brewery.lng} width="20px" height="20px"/>
+        <img src={brewery.imgSrc} lat={brewery.lat} lng={brewery.lng} width="40px" height="40px"/>
       )}
     </GoogleMap>
     <span>List</span>
