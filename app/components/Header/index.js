@@ -1,8 +1,9 @@
 import React from 'react'
 import HeaderLink from './HeaderLink'
 
+import FlatButton from 'material-ui/FlatButton';
 import HorizontalFlex from 'components/HorizontalFlex';
-import Text from 'components/Text';
+
 
 import HeaderDiv from './HeaderDiv'
 

@@ -1,15 +1,14 @@
-import styled from 'styled-components';
+import React from 'react'
+import FlatButton from 'material-ui/FlatButton';
 import { Link } from 'react-router';
 
-const HeaderLink = styled(Link)`
-  color: #D87800;
-  font-family: Helvetica, Arial, sans-serif;
-  font-size: 24px;
-  text-decoration: none;
-  margin: 0px 8px;
-  &:hover {
-    text-decoration: underline;
-  }
-`;
+const HeaderLink = (props) => (
+	<Link to={props.to}>
+		<FlatButton primary={true} >
+			{props.children}
+		</FlatButton>
+	</Link>
+);
+
 
 export default HeaderLink;

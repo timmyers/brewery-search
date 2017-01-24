@@ -53,6 +53,21 @@ export default class Socket extends Component {
 		})
 	}
 
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.lastRequestNum != this.props.lastRequestNum) {
+			let action = nextProps.lastAction
+			let params = nextProps.lastParams
+
+			console.log('About to send: ' + action)
+			let msg = {
+				action,
+				params
+			}
+
+			this.ws.send(JSON.stringify(msg))
+		}
+	}
+
 	render() {
 		return null
 	}

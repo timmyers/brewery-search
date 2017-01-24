@@ -7,7 +7,7 @@ const VerticalFlex = styled.div`
   flex-direction: column;
   background-color: ${props => props.backgroundColor};
   position: relative;
-  justify-content: center;
+  justify-content: ${props => props.justifyContent ? props.justifyContent : 'center'};
   align-items: center;
 `;
 

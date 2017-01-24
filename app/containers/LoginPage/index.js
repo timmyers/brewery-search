@@ -2,13 +2,13 @@ import React from 'react';
 
 import SimpleLayout from 'layouts/SimpleLayout';
 
-import LoginBox from './LoginBox';
+import LoginForm from './Containers/LoginFormContainer';
 
-const AboutPage = () => (
+const LoginPage = () => (
 	<SimpleLayout>
-		<LoginBox>
-		</LoginBox>
+		<LoginForm>
+		</LoginForm>
   </SimpleLayout>
 );
 
-export default AboutPage;
+export default LoginPage;

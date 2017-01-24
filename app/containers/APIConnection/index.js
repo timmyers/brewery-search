@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 export const CONNECTED = 'CONNECTED'
 export const DISCONNECTED = 'DISCONNECTED'
 export const ADD_BREWERIES = 'ADD_BREWERIES'
+export const SEND_ACTION = 'SEND_ACTION'
 
 // ------------------------------------
 // Actions
@@ -24,10 +25,26 @@ function addBreweries(breweries) {
 	}
 }
 
+function sendAction(action, params) {
+	return {
+		type: SEND_ACTION,
+		payload: {
+			action,
+			params
+		}
+	}
+}
+
 const actions = {
   connected,
   addBreweries
 }
+
+const mapStateToProps = (state) => ({
+  lastAction: state.api.lastAction,
+  lastParams: state.api.lastParams,
+  lastRequestNum: state.api.lastRequestNum
+})
 
 // ------------------------------------
 // Action Handlers
@@ -47,6 +64,13 @@ const ACTION_HANDLERS = {
   	return Object.assign({}, state, {
     	breweries: action.payload
     })
+  },
+  [SEND_ACTION] : (state, action) => {
+  	return Object.assign({}, state, {
+    	lastAction: action.payload.action,
+    	lastParams: action.payload.params,
+    	lastRequestNum: state.lastRequestNum + 1
+    })
   }
 }
 
@@ -55,7 +79,10 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 const initialState = {
 	connected: false,
-	breweries: []
+	breweries: [],
+	lastAction: "",
+	lastParams: {},
+	lastRequestNum: 0
 }
 
 export function reducer (state = initialState, action) {
@@ -64,4 +91,4 @@ export function reducer (state = initialState, action) {
   return handler ? handler(state, action) : state
 }
 
-export default connect(null, actions)(Socket)
+export default connect(mapStateToProps, actions)(Socket)

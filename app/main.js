@@ -4,6 +4,10 @@ import createStore from './store/createStore';
 import { AppContainer } from 'react-hot-loader'
 import App from 'containers/App'
 
+// Required material-ui
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
+
 // ========================================================
 // Store Instantiation
 // ========================================================
