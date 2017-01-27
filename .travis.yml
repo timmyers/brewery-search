@@ -1,5 +1,10 @@
 language: node_js
 sudo: false
 node_js:
-  - "6"
+- '6'
 script: npm run deploy:prod
+deploy:
+  provider: heroku
+  skip_cleanup: true
+  api_key:
+    secure: Q/s59rgrynbFAnVU9vpw3H5f7XwvrgOcvnnmp0qfV7NhyVWJA3MMR81gBpt3WJOIXXeJxpAWEmTozXa9eYo9ByitYigsnS5pcWZ4fQolfCNzwKdSO06mx4aIjPrtc+kwspG54HL2PvB+sF2u26qzlL4n6utPY71PSuDi1U7U1TilyMgv5Fx89lkGBAhEzUTlOCQp+wLCRVx5oB7chEbiDL364mZ34QkypgYg6+GY3ItMjyCnuYYKfKy09Atbx30EW7/+chX1Tmpb5hfaJrGaD49FvEdCHdOo2UbV2karghokw4CZuZINwsQJ/qXVLi+Tk3g0qVfVBqpJYUavHuDOJ5ZPjieuQSuqdNkVFfdJsj8C821wUvdiQAcPMZU5aY89sgaeOZ2vwZRhlEax+IayWl8jpTmLC/f3hJ61XVfygqeqWNacb0/cDev+MypvGOzsOY69xwAMVTLmwHyG/SmKrTuXiuPzsCEx7j8J7di0u1y8wsJIjRgb0mwOHlFfqyl9etm4CvQfz46hq6KqV5bPW4YNDG1OKAJFscd2UdoRikPEgIzcw5H0ZvLj7RVFSpj9ZHTiAwok1MzOkSTZUEo/5y7+etdXDF4pUpH8gkhV11QH6uC61xpZGXU/NRLpLpU4msKJXJijzbzkNV9T52hN6s7xREafsCrLSfmlRsM5ToA=
