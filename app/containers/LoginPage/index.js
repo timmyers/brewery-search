@@ -4,6 +4,8 @@ import SimpleLayout from 'layouts/SimpleLayout';
 
 import LoginForm from './Containers/LoginFormContainer';
 
+import {reducer} from './Logic/loginReducers';
+
 const LoginPage = () => (
 	<SimpleLayout>
 		<LoginForm>
@@ -12,3 +14,4 @@ const LoginPage = () => (
 );
 
 export default LoginPage;
+export {reducer}
