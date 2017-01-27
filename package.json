@@ -135,6 +135,7 @@
     "lint:fix": "npm run lint -- --fix",
     "start": "better-npm-run start",
     "test": "better-npm-run test",
-    "test:dev": "npm run test -- --watch"
+    "test:dev": "npm run test -- --watch",
+    "postinstall": "node node_modules/phantomjs-prebuilt/install.js"
   }
 }
