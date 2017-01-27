@@ -2,13 +2,11 @@ import React from 'react'
 
 import VerticalFlex from 'components/VerticalFlex';
 import HorizontalFlex from 'components/HorizontalFlex';
-import Button from 'components/Button';
 import LoginInput from './LoginInput';
 import Holder from './Holder';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
-
 import {orange500} from 'material-ui/styles/colors';
 
 const LoginHeader = () => (
