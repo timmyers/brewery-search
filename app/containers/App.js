@@ -12,7 +12,6 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import {orange700, orange900, brown600, brown800} from 'material-ui/styles/colors';
 
 import HomePage from 'containers/HomePage';
-import AboutPage from 'containers/AboutPage';
 import LoginPage from 'containers/LoginPage';
 
 import APIConnection from './APIConnection'
@@ -81,7 +80,6 @@ const App = connect((state) => {
 			  		<VerticalFlex>
 			      		<APIConnection />
 			    		<Match exactly pattern="/" component={HomePage} />
-			    		<Match pattern="/about" component={AboutPage} />
 			    		<Match pattern="/login" component={LoginPage} />
 		    		</VerticalFlex>
 	    		</MuiThemeProvider>

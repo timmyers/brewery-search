@@ -4,7 +4,8 @@ import Websocket from 'reconnecting-websocket'
 export default class Socket extends Component {
 	static propTypes = {
 		connected: PropTypes.func.isRequired,
-		addBreweries: PropTypes.func.isRequired
+		addBreweries: PropTypes.func.isRequired,
+		loginResponse: PropTypes.func.isRequired
 	}
 
 	constructor(props) {
@@ -18,7 +19,7 @@ export default class Socket extends Component {
 		    wsUri = "ws:";
 		}
 		wsUri += "//" + loc.host;
-		wsUri += loc.pathname + "api";
+		wsUri += "/api";
 
 		this.ws = new Websocket(wsUri)
 
@@ -34,15 +35,18 @@ export default class Socket extends Component {
 
 		this.ws.addEventListener('message', (event) => {
 			let data = event.data
-			console.log('got message: ' + data)
+			console.log('API message: ' + data)
 			try {
 				let json = JSON.parse(data)
 
 				if (json.hasOwnProperty('action')) {
 					let action = json.action;
-					console.log('Got ' + action + ': ' + json)
+					console.log('Received action: ' + action)
 					if (action == "breweries") {
 						this.props.addBreweries(json.breweries)
+					}
+					else if (action == "loginResponse") {
+						this.props.loginResponse(json.loginResponse);
 					}
 				}
 			}

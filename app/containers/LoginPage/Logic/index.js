@@ -1,11 +1,12 @@
-import { SEND_ACTION } from 'containers/APIConnection'
+import { LOGIN_RESPONSE, SEND_ACTION } from 'containers/APIConnection'
 
 // ------------------------------------
 // Constants
 // ------------------------------------
 export const USERNAME_INPUT_CHANGED = 'USERNAME_INPUT_CHANGED'
 export const USERNAME_FOCUSED = 'USERNAME_FOCUSED'
-
+export const PASSWORD_INPUT_CHANGED = 'PASSWORD_INPUT_CHANGED'
+export const PASSWORD_FOCUSED = 'PASSWORD_FOCUSED'
 
 export const login = (username, password) => {
 	return {
@@ -32,6 +33,20 @@ export const usernameFocused = () => {
 		type : USERNAME_FOCUSED
 	}
 }
+
+export const passwordChanged = (password) => {
+	return {
+		type    : PASSWORD_INPUT_CHANGED,
+    payload : password 
+	}
+}
+
+export const passwordFocused = () => {
+	return {
+		type : PASSWORD_FOCUSED
+	}
+}
+
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
@@ -42,11 +57,8 @@ const ACTION_HANDLERS = {
   	if (username.length == 0) {
   		usernameError = "Username may not be empty"
   	}
-  	else if (username.length < 6) {
-  		usernameError = "Username must be at least 6 characters"
-  	}
-
   	return Object.assign({}, state, {
+  		username,
   		usernameError
     })
   },
@@ -54,6 +66,38 @@ const ACTION_HANDLERS = {
   	return Object.assign({}, state, {
   		usernameTouched: true
   	})
+  },
+  [PASSWORD_INPUT_CHANGED] : (state, action) => {
+  	let password = action.payload
+  	let passwordError = ""
+  	if (password.length == 0) {
+  		passwordError = "Password may not be empty"
+  	}
+  	return Object.assign({}, state, {
+  		password,
+  		passwordError
+    })
+  },
+  [PASSWORD_FOCUSED] : (state, action) => {
+  	return Object.assign({}, state, {
+  		passwordTouched: true
+  	})
+  },
+  [LOGIN_RESPONSE] : (state, action) => {
+  	let result = action.payload
+  	if (result.error) {
+  		let error = result.error
+  		if (error.username) {
+  			return Object.assign({}, state, {
+		  		usernameError: error.username
+		  	})
+  		}
+  		else if (error.password) {
+  			return Object.assign({}, state, {
+		  		passwordError: error.password
+		  	})
+  		}
+  	}
   }
 }
 
@@ -61,8 +105,12 @@ const ACTION_HANDLERS = {
 // Reducer
 // ------------------------------------
 const initialState = {
+	username: "",
 	usernameError: "Username may not be empty",
-	usernameTouched: false
+	usernameTouched: false,
+	password: "",
+	passwordError: "Password may not be empty",
+	passwordTouched: false
 }
 
 export function reducer (state = initialState, action) {

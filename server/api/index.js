@@ -40,13 +40,15 @@ wss.on('connection', (ws) => {
           let loginResponse = {
             action: 'loginResponse'
           }
+          let result = {};
+          loginResponse.loginResponse = result
 
           //  Error retriving user info from db
           if (err) {
-            loginResponse.error = 'Sorry, something went wrong.'
+            result.error = 'Sorry, something went wrong.'
           } else {
             if (!user) {
-              loginResponse.error = {
+              result.error = {
                 username: 'Username not found.'
               }
 
@@ -57,13 +59,13 @@ wss.on('connection', (ws) => {
               bcrypt.compare(password, user.password, (err, res) => {
                 if (err) {
                   debug('bcrypt error: ' + err)
-                  loginResponse.error = 'Sorry, something went wrong.'
+                  result.error = 'Sorry, something went wrong.'
                 }
 
                 debug('bcrypt result: ' + res)
 
                 if (!res) {
-                  loginResponse.error = {
+                  result.error = {
                     password: 'Incorrect password.'
                   }
                 }

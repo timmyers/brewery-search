@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { usernameChanged, usernameFocused, login } from '../Logic/loginReducers.js'
+import { usernameChanged, usernameFocused, passwordChanged, passwordFocused, login } from '../Logic'
 
 import LoginBox from '../Components/LoginBox';
 
@@ -10,12 +10,18 @@ import LoginBox from '../Components/LoginBox';
 const mapDispatchToProps = {
   usernameChanged,
   usernameFocused,
+  passwordChanged,
+  passwordFocused,
   login
 }
 
 const mapStateToProps = (state) => ({
+  username: state.login.username,
   usernameError: state.login.usernameError,
-  usernameTouched: state.login.usernameTouched
+  usernameTouched: state.login.usernameTouched,
+  password: state.login.password,
+  passwordError: state.login.passwordError,
+  passwordTouched: state.login.passwordTouched
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginBox)

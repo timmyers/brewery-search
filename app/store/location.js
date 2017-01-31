@@ -1,6 +1,4 @@
 import {history} from 'containers/App';
-console.log("history")
-console.log(history);
 
 // ------------------------------------
 // Constants

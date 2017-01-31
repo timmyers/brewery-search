@@ -8,6 +8,7 @@ export const CONNECTED = 'CONNECTED'
 export const DISCONNECTED = 'DISCONNECTED'
 export const ADD_BREWERIES = 'ADD_BREWERIES'
 export const SEND_ACTION = 'SEND_ACTION'
+export const LOGIN_RESPONSE = 'LOGIN_RESPONSE'
 
 // ------------------------------------
 // Actions
@@ -25,6 +26,13 @@ function addBreweries(breweries) {
 	}
 }
 
+const loginResponse = (result) => {
+	return {
+		type    : LOGIN_RESPONSE,
+		payload : result
+	}
+}
+
 function sendAction(action, params) {
 	return {
 		type: SEND_ACTION,
@@ -37,7 +45,8 @@ function sendAction(action, params) {
 
 const actions = {
   connected,
-  addBreweries
+  addBreweries,
+  loginResponse
 }
 
 const mapStateToProps = (state) => ({

@@ -21,12 +21,8 @@ const LoginHeader = () => (
 );
 
 const LoginPage = (props) => {
-	let username = "";
-	let password = "";
-
 	function handleUsernameChange(value) {
-		username = value;
-		props.usernameChanged(username);
+		props.usernameChanged(value);
 	}
 
 	function handleUsernameFocus(e) {
@@ -34,11 +30,15 @@ const LoginPage = (props) => {
 	}
 
 	function handlePasswordChange(value) {
-		password = value;
+		props.passwordChanged(value);
+	}
+
+	function handlePasswordFocus(e) {
+		props.passwordFocused()
 	}
 
 	function handleSubmit() {
-		props.login(username, password)
+		props.login(props.username, props.password)
 	}
 
 	return (
@@ -52,6 +52,8 @@ const LoginPage = (props) => {
 			/>
 			<LoginInput
 				onChange={ (e) => handlePasswordChange(e.target.value) }
+				onFocus={ (e) => handlePasswordFocus(e)}
+				errorText={props.passwordTouched ? props.passwordError : ""}
 				label="Password"
 			/>
 			<RaisedButton 
