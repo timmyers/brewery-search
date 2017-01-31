@@ -40,7 +40,7 @@ wss.on('connection', (ws) => {
           let loginResponse = {
             action: 'loginResponse'
           }
-          let result = {};
+          let result = {}
           loginResponse.loginResponse = result
 
           //  Error retriving user info from db
