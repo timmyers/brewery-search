@@ -98,7 +98,6 @@
     "chai-as-promised": "^6.0.0",
     "chai-enzyme": "^0.5.0",
     "cheerio": "^0.20.0",
-    "codecov": "^1.0.1",
     "enzyme": "^2.0.0",
     "eslint": "^3.11.1",
     "eslint-config-standard": "^6.2.1",
