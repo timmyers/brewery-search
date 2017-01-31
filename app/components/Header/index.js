@@ -11,11 +11,6 @@ const Header = () => (
 		<HorizontalFlex width="20%">
 		</HorizontalFlex>
 
-		<HorizontalFlex width="60%">
-			<HeaderLink to="/">Home</HeaderLink>
-			<HeaderLink to="/about">About</HeaderLink>
-		</HorizontalFlex>
-
 		<HorizontalFlex width="20%">
 			<HeaderLink to="/login">Log In</HeaderLink>
 		</HorizontalFlex>
