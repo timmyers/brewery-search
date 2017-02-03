@@ -2,25 +2,14 @@ import React from 'react'
 
 import VerticalFlex from 'components/VerticalFlex';
 import HorizontalFlex from 'components/HorizontalFlex';
+import LoginHeader from './LoginHeader'
 import LoginInput from './LoginInput';
 import Holder from './Holder';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
-import {orange500} from 'material-ui/styles/colors';
 
-const LoginHeader = () => (
-	<HorizontalFlex 
-		backgroundColor={orange500}
-		height="40px"
-	>
-		<span color="white">
-			Log In
-		</span>
-	</HorizontalFlex>
-);
-
-const LoginPage = (props) => {
+const LoginForm = (props) => {
 	function handleUsernameChange(value) {
 		props.usernameChanged(value);
 	}
@@ -43,7 +32,9 @@ const LoginPage = (props) => {
 
 	return (
 		<Holder>
-			<LoginHeader />
+			<LoginHeader>
+				Log In
+			</LoginHeader>
 			<LoginInput
 				onChange={ (e) => handleUsernameChange(e.target.value) }
 				onFocus={ (e) => handleUsernameFocus(e)}
@@ -66,4 +57,4 @@ const LoginPage = (props) => {
 	);
 }
 
-export default LoginPage;
+export default LoginForm;

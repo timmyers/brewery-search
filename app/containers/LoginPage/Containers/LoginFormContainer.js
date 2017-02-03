@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { usernameChanged, usernameFocused, passwordChanged, passwordFocused, login } from '../Logic'
 
-import LoginBox from '../Components/LoginBox';
+import LoginForm from '../Components/LoginForm';
 
 /*  Object of action creators (can also be function that returns object).
     Keys will be passed as props to presentational components. Here we are
@@ -24,4 +24,4 @@ const mapStateToProps = (state) => ({
   passwordTouched: state.login.passwordTouched
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginBox)
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm)

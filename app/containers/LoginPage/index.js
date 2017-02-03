@@ -8,8 +8,12 @@ import {reducer, loginResponse} from './Logic';
 
 const LoginPage = () => (
 	<SimpleLayout>
-		<LoginForm>
-		</LoginForm>
+		{true ?
+			<LoginForm>
+			</LoginForm>
+		:
+			<span>Register</span>
+		}
   </SimpleLayout>
 );
 

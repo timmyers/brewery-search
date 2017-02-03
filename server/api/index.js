@@ -76,6 +76,10 @@ wss.on('connection', (ws) => {
           }
         })
       }
+      else if (action == 'register') {
+        let username = message.params.username
+        let password = message.params.password
+      }
     }
   })
 
