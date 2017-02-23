@@ -152,7 +152,7 @@ class APIConnection {
     debug('sending: %s', msgStr);
 
     this.ackTimeouts[String(ackNum)] = setTimeout(() => {
-      logger.log('client', "Timed out on ack " + ackNum);
+      debug("Timed out on ack " + ackNum);
       this.sendFullState();
     }, 3000);
 

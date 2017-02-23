@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux'
 
-import {reducer} from './Logic';
+import { reducer, mapBoundsChanged } from './Logic';
 
 import Map from './Components/Map';
 import CoreLayout from 'layouts/CoreLayout';
@@ -9,26 +9,21 @@ import VerticalFlex from 'components/VerticalFlex';
     
 
 const HomePage = (props) => {
-  let filteredBreweries = [];
+  let breweries = props.breweries;
 
   let onMapBoundsChange = (topLat, leftLng, bottomLat, rightLng) => {
-    filteredBreweries = props.breweries.filter(brewery => {
-      return brewery.lat < topLat && brewery.lat > bottomLat &&
-             brewery.lng > leftLng && brewery.lng < rightLng;
-    });
-    // console.log(JSON.stringify(filteredBreweries));
-    console.log(filteredBreweries.length)
+    props.mapBoundsChanged({topLat, leftLng, bottomLat, rightLng});
   }
 
   return (
     <CoreLayout>
       <Map onBoundsChange={onMapBoundsChange}>
-        {props.breweries.map(brewery =>
+        {breweries.map(brewery =>
           <img src={brewery.imgSrc} lat={brewery.lat} lng={brewery.lng} width="40px" height="40px"/>
         )}
       </Map>
       <VerticalFlex>
-        {filteredBreweries.map(brewery =>
+        {breweries.map(brewery =>
           <span>{brewery.name}</span>
         )}
       </VerticalFlex>
@@ -42,9 +37,23 @@ HomePage.propTypes = {
 
 const mapStateToProps = (state) => {
   let breweries = state.api.state.breweries || [];
+  let bounds = state.map.bounds;
+
+  if (bounds) {
+    let {topLat, leftLng, bottomLat, rightLng} = bounds;
+
+    breweries = breweries.filter(brewery => {
+      return brewery.lat < topLat && brewery.lat > bottomLat &&
+             brewery.lng > leftLng && brewery.lng < rightLng;
+    })
+  }
 
   return { breweries }
 }
 
+const mapDispatchToProps = {
+  mapBoundsChanged
+}
+
 export {reducer}
-export default connect(mapStateToProps)(HomePage);
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

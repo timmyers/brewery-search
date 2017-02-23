@@ -25,7 +25,7 @@ const ACTION_HANDLERS = {
 // Reducer
 // ------------------------------------
 const initialState = {
-	bounds: {}
+	bounds: null
 }
 
 export function reducer (state = initialState, action) {
