@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import createStore from './store/createStore';
 import { AppContainer } from 'react-hot-loader'
 import App from 'containers/App'
+import { setDispatch } from 'api'
 
 // Required material-ui
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -15,12 +16,18 @@ const initialState = window.___INITIAL_STATE__
 const store = createStore(initialState)
 
 // ========================================================
+// API Instantiation
+// ========================================================
+setDispatch((x) => {
+  store.dispatch(x);
+});
+
+// ========================================================
 // Render Setup
 // ========================================================
 const MOUNT_NODE = document.getElementById('root')
 
 let render = () => {
-  console.log("About to render");
   ReactDOM.render(
     <AppContainer>
       <App store={store} />

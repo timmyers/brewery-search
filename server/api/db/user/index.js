@@ -1,13 +1,15 @@
 const db = require('../db')
-// const debug = require('debug')('app:bin:api:db:user')
+const debug = require('debug')('app:api:db:user')
 
 let collection
 
-db.get((dbConn) => {
-  collection = dbConn.collection('User')
-})
+db.get()
+	.then(dbConn => {
+		debug('got db connection');
+		collection = dbConn.collection('User')
+	});
 
-let usernameExists = (username, callback) => {
+function usernameExists(username, callback) {
   collection.count({ username }, { limit: 1 }, (err, count) => {
     if (err) {
       callback(err)
@@ -17,7 +19,7 @@ let usernameExists = (username, callback) => {
   })
 }
 
-let find = (username, callback) => {
+function find(username, callback) {
   collection.findOne({ username }, { fields: { password: 1 } }, (err, user) => {
     if (err) {
       return callback(err)

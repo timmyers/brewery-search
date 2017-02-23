@@ -1,34 +1,26 @@
-const MongoClient = require('mongodb').MongoClient
-const debug = require('debug')('app:bin:api:db')
+const Promise = require("bluebird");
+const MongoClient = require('mongodb').MongoClient;
+const debug = require('debug')('app:api:db')
+
+// Turn mongoDB callbacks into promises
+Promise.promisifyAll(MongoClient);
 
 // Connection URL
-var url = 'mongodb://heroku_pn4vdj5h:ic2a038up7pjedvhq3s33eqjjn@ds155428.mlab.com:55428/heroku_pn4vdj5h'
+const url = 'mongodb://heroku_pn4vdj5h:ic2a038up7pjedvhq3s33eqjjn@ds155428.mlab.com:55428/heroku_pn4vdj5h'
 
-let db = null
-let dbPromise = new Promise((resolve, reject) => {
-  MongoClient.connect(url, (err, connectedDB) => {
-    if (err) {
-      debug('Failed to connect to MongoDB: ' + err)
-      reject(err)
-    }
-
+let db = MongoClient.connectAsync(url)
+  .then(db => {
     debug('MongoDB connection successful.')
-    db = connectedDB
-    resolve()
+    return db;
   })
-})
+  .catch(err => {
+    debug('Failed to connect to MongoDB: ' + err);
+    throw err;
+  });
 
-let get = (callback) => {
-  debug('get called')
-  if (db) {
-    debug('connection ready, returning connection')
-    return callback(db)
-  }
-  debug('waiting on promise')
-  return dbPromise.then(() => {
-    debug('promise fulfilled, returning connection')
-    callback(db)
-  })
+
+function get() {
+  return db;
 }
 
 module.exports = { get }

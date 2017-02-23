@@ -1,5 +1,4 @@
-import { LOGIN_RESPONSE, SEND_ACTION } from 'containers/APIConnection'
-
+import { API_RESPONSE_LOGIN_SUCCESSFUL, API_RESPONSE_LOGIN_FAILED } from 'api/actions'
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -7,19 +6,6 @@ export const USERNAME_INPUT_CHANGED = 'USERNAME_INPUT_CHANGED'
 export const USERNAME_FOCUSED = 'USERNAME_FOCUSED'
 export const PASSWORD_INPUT_CHANGED = 'PASSWORD_INPUT_CHANGED'
 export const PASSWORD_FOCUSED = 'PASSWORD_FOCUSED'
-
-export const login = (username, password) => {
-	return {
-    type    : SEND_ACTION,
-    payload : {
-    	action: 'login',
-    	params: {
-    		username,
-    		password
-    	}
-    }
-  }
-}
 
 export const usernameChanged = (username) => {
 	return {
@@ -83,21 +69,18 @@ const ACTION_HANDLERS = {
   		passwordTouched: true
   	})
   },
-  [LOGIN_RESPONSE] : (state, action) => {
-  	let result = action.payload
-  	if (result.error) {
-  		let error = result.error
-  		if (error.username) {
-  			return Object.assign({}, state, {
-		  		usernameError: error.username
-		  	})
-  		}
-  		else if (error.password) {
-  			return Object.assign({}, state, {
-		  		passwordError: error.password
-		  	})
-  		}
-  	}
+  [API_RESPONSE_LOGIN_FAILED] : (state, action) => {
+  	let error = action.error;
+  	if (error.username) {
+			return Object.assign({}, state, {
+	  		usernameError: error.username
+	  	})
+		}
+		else if (error.password) {
+			return Object.assign({}, state, {
+	  		passwordError: error.password
+	  	})
+		}
   }
 }
 

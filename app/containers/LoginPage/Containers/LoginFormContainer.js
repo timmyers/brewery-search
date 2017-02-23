@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
-import { usernameChanged, usernameFocused, passwordChanged, passwordFocused, login } from '../Logic'
+import { usernameChanged, usernameFocused, passwordChanged, passwordFocused } from '../Logic'
+import { login } from 'api/actions';
 
 import LoginForm from '../Components/LoginForm';
 

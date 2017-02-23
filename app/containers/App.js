@@ -14,10 +14,6 @@ import {orange700, orange900, brown600, brown800} from 'material-ui/styles/color
 import HomePage from 'containers/HomePage';
 import LoginPage from 'containers/LoginPage';
 
-import APIConnection from './APIConnection'
-
-//let api = new APIConnection()
-
 const muiTheme = getMuiTheme({
   palette: {
   	primary1Color: orange700,
@@ -30,7 +26,6 @@ const muiTheme = getMuiTheme({
 export const NAVIGATE = 'NAVIGATE';
 
 const history = createBrowserHistory();
-console.log(history);
 
 const App = connect((state) => {
   return {
@@ -78,7 +73,6 @@ const App = connect((state) => {
 	  		>
 	  			<MuiThemeProvider muiTheme={muiTheme}>
 			  		<VerticalFlex>
-			      		<APIConnection />
 			    		<Match exactly pattern="/" component={HomePage} />
 			    		<Match pattern="/login" component={LoginPage} />
 		    		</VerticalFlex>
