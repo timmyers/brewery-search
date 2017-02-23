@@ -9,6 +9,7 @@ const VerticalFlex = styled.div`
   position: relative;
   justify-content: ${props => props.justifyContent ? props.justifyContent : 'center'};
   align-items: center;
+  overflow: ${props => props.scroll ? 'auto' : ''};
 `;
 
 export default VerticalFlex;

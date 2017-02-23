@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { reducer, mapBoundsChanged } from './Logic';
 
 import Map from './Components/Map';
+import BreweryListItem from './Components/BreweryListItem';
 import CoreLayout from 'layouts/CoreLayout';
 import VerticalFlex from 'components/VerticalFlex';
     
@@ -22,9 +23,9 @@ const HomePage = (props) => {
           <img src={brewery.imgSrc} lat={brewery.lat} lng={brewery.lng} width="40px" height="40px"/>
         )}
       </Map>
-      <VerticalFlex>
+      <VerticalFlex scroll={true} justifyContent="flex-start">
         {breweries.map(brewery =>
-          <span>{brewery.name}</span>
+          <BreweryListItem brewery={brewery} />
         )}
       </VerticalFlex>
     </CoreLayout>

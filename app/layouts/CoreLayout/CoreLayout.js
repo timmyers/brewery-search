@@ -14,7 +14,7 @@ const CoreLayout = ({ children }) => (
       <HorizontalFlex width='70%'>
       	{children[0]}
       </HorizontalFlex>
-      <HorizontalFlex width='30%' backgroundColor="#FAFAFA">
+      <HorizontalFlex width='30%'>
       	{children[1]}
       </HorizontalFlex>
     </HorizontalFlex>
