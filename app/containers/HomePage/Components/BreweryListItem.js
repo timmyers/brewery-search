@@ -12,7 +12,7 @@ const BreweryListItem = (props) => {
 	let brewery = props.brewery;
 
 	return (
-    <Paper style={style} zDepth={1}>
+    <Paper style={style} zDepth={1} rounded={false}>
     	<VerticalFlex>
 	      <span>{brewery.name}</span>
       </VerticalFlex>
