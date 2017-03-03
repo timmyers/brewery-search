@@ -15,8 +15,8 @@ const Map = (props) => {
       bootstrapURLKeys={{
         key: "AIzaSyDk64oknr1zOjz-loIogxns15U1ZWV5luc"
       }}
-      center={ {lat: 39.761502, lng: -104.981076} }
-      zoom={16}
+      center={ {lat: 39.711439, lng: -104.992366} }
+      zoom={10}
       onBoundsChange={onBoundsChange}
     >
       {props.children}
