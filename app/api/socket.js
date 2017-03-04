@@ -1,120 +1,119 @@
-import Websocket from 'reconnecting-websocket'
-import Promise from 'bluebird'
-import { setState, updateState } from './actions'
+import Websocket from 'reconnecting-websocket';
+import Promise from 'bluebird';
+import { setState, updateState } from './actions';
 
-let dispatch
+let dispatch;
 
 // Build up the proper URL
-let loc = window.location, wsUri;
-if (loc.protocol === "https:") {
-    wsUri = "wss:";
+const loc = window.location;
+let wsUri;
+if (loc.protocol === 'https:') {
+  wsUri = 'wss:';
 } else {
-    wsUri = "ws:";
+  wsUri = 'ws:';
 }
-wsUri += "//" + loc.host;
-wsUri += "/api";
+wsUri += `//${loc.host}`;
+wsUri += '/api';
 
-let ws = new Websocket(wsUri)
+const ws = new Websocket(wsUri);
 
 let messageID = 0;
 
-let responseResolvers = {};
+const responseResolvers = {};
 
 ws.addEventListener('open', () => {
-	console.log('socket connected')
-	// this.props.connected(true)
-})
+  console.log('socket connected');
+  // this.props.connected(true)
+});
 
 ws.addEventListener('close', () => {
-	console.log('socket disconnected')
-	// this.props.connected(false)
-})
+  console.log('socket disconnected');
+  // this.props.connected(false)
+});
 
 ws.addEventListener('message', (event) => {
-	let data = event.data
-	// console.log('API message: ' + data)
-	try {
-		let json = JSON.parse(data)
+  const data = event.data;
+  // console.log('API message: ' + data)
+  try {
+    const json = JSON.parse(data);
 
-		if (json.action) {
-			let action = json.action;
-			// console.log('Received action: ' + action)
-			if (action == "response") {
-				let id = String(json.id);
+    if (json.action) {
+      const action = json.action;
+      // console.log('Received action: ' + action)
+      if (action === 'response') {
+        const id = String(json.id);
 
-				if (responseResolvers[id]) {
-					let resolve = responseResolvers[id];
-					if (json.result) {
-						let result = json.result;
-						resolve({result});
-					}
-					else if (json.error) {
-						let error = json.error;
-						resolve({error});
-					}
-				}
-			}
-			else if (action == "state") {
-				let id = json.id;
+        if (responseResolvers[id]) {
+          const resolve = responseResolvers[id];
 
-				let ack = {
-					action: 'ack',
-					id
-				}
-				ws.send(JSON.stringify(ack));
+          if (json.result) {
+            const result = json.result;
+            resolve({ result });
+          } else if (json.error) {
+            const error = json.error;
+            resolve({ error });
+          }
+        }
+      } else if (action === 'state') {
+        const id = json.id;
 
-				let state = json.state;
-				dispatch(setState(state));
-			}
-			else if (action == "update") {
-				let id = json.id;
+        const ack = {
+          action: 'ack',
+          id,
+        };
+        ws.send(JSON.stringify(ack));
 
-				let ack = {
-					action: 'ack',
-					id
-				}
-				ws.send(JSON.stringify(ack));
+        const state = json.state;
+        dispatch(setState(state));
+      } else if (action === 'update') {
+        const id = json.id;
 
-				let update = json.update;
-				dispatch(updateState(update));
-			}
-		}
-	}
-	catch (e) {
-		console.log('Got invalid JSON message')
-	}
-})
+        const ack = {
+          action: 'ack',
+          id,
+        };
+        ws.send(JSON.stringify(ack));
+
+        const update = json.update;
+        dispatch(updateState(update));
+      }
+    }
+  } catch (e) {
+    console.log('Got invalid JSON message');
+  }
+});
 
 function request(action, params) {
-	let id = messageID++;
-	let idstr = String(id);
+  const id = messageID;
+  messageID += 1;
+  const idstr = String(id);
 
-	let msg = {
-		action,
-		params,
-		id
-	}
+  const msg = {
+    action,
+    params,
+    id,
+  };
 
-	let p = new Promise((resolve, reject) => {
-		let rejectTimeout = setTimeout(() => {
-			reject(new Error('timeout'));
-			delete responseResolvers[idstr];
-		}, 5000);
+  const p = new Promise((resolve, reject) => {
+    const rejectTimeout = setTimeout(() => {
+      reject(new Error('timeout'));
+      delete responseResolvers[idstr];
+    }, 5000);
 
-		responseResolvers[idstr] = (result) => {
-			clearTimeout(rejectTimeout);
-			resolve(result);
-			delete responseResolvers[idstr];
-		};
-	});
+    responseResolvers[idstr] = (result) => {
+      clearTimeout(rejectTimeout);
+      resolve(result);
+      delete responseResolvers[idstr];
+    };
+  });
 
-	ws.send(JSON.stringify(msg))
+  ws.send(JSON.stringify(msg));
 
-	return p;
+  return p;
 }
 
 function setDispatch(dispatchIn) {
-	dispatch = dispatchIn
+  dispatch = dispatchIn;
 }
 
-export { request, setDispatch }
+export { request, setDispatch };

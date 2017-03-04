@@ -1,19 +1,21 @@
 import React from 'react';
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom';
+import { AppContainer } from 'react-hot-loader';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
+import App from 'containers/App';
+import { setDispatch } from 'api';
+
 import createStore from './store/createStore';
-import { AppContainer } from 'react-hot-loader'
-import App from 'containers/App'
-import { setDispatch } from 'api'
 
 // Required material-ui
-import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
 // ========================================================
 // Store Instantiation
 // ========================================================
-const initialState = window.___INITIAL_STATE__
-const store = createStore(initialState)
+const initialState = window.___INITIAL_STATE__;
+const store = createStore(initialState);
 
 // ========================================================
 // API Instantiation
@@ -25,23 +27,23 @@ setDispatch((x) => {
 // ========================================================
 // Render Setup
 // ========================================================
-const MOUNT_NODE = document.getElementById('root')
+const MOUNT_NODE = document.getElementById('root');
 
-let render = () => {
+const render = () => {
   ReactDOM.render(
     <AppContainer>
       <App store={store} />
     </AppContainer>,
     MOUNT_NODE
-  )
-}
+  );
+};
 
 // ========================================================
 // Developer Tools Setup
 // ========================================================
 if (__DEV__) {
   if (window.devToolsExtension) {
-    window.devToolsExtension.open()
+    window.devToolsExtension.open();
   }
 }
 
@@ -50,7 +52,7 @@ if (__DEV__) {
   // Hot Module Replacement API
   if (module.hot) {
     module.hot.accept('containers/App', () => {
-      const NextApp = require('containers/App').default;
+      const NextApp = require('containers/App').default; // eslint-disable-line global-require
       ReactDOM.render(
         <AppContainer>
           <NextApp store={store} />

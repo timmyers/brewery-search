@@ -1,25 +1,26 @@
-import { applyMiddleware, compose, createStore } from 'redux'
-import createSagaMiddleware from 'redux-saga'
-import makeRootReducer from './reducers'
-import { APISaga } from 'api'
+import { applyMiddleware, compose, createStore } from 'redux';
+import createSagaMiddleware from 'redux-saga';
+import { APISaga } from 'api';
+
+import makeRootReducer from './reducers';
 
 // create the saga middleware
-const sagaMiddleware = createSagaMiddleware()
+const sagaMiddleware = createSagaMiddleware();
 
 export default (initialState = {}) => {
   // ======================================================
   // Middleware Configuration
   // ======================================================
-  const middleware = [sagaMiddleware]
+  const middleware = [sagaMiddleware];
 
   // ======================================================
   // Store Enhancers
   // ======================================================
-  const enhancers = []
+  const enhancers = [];
   if (__DEV__) {
-    const devToolsExtension = window.devToolsExtension
+    const devToolsExtension = window.devToolsExtension;
     if (typeof devToolsExtension === 'function') {
-      enhancers.push(devToolsExtension())
+      enhancers.push(devToolsExtension());
     }
   }
 
@@ -33,17 +34,17 @@ export default (initialState = {}) => {
       applyMiddleware(...middleware),
       ...enhancers
     )
-  )
-  store.asyncReducers = {}
+  );
+  store.asyncReducers = {};
 
-  sagaMiddleware.run(APISaga)
+  sagaMiddleware.run(APISaga);
 
   if (module.hot) {
     module.hot.accept('./reducers', () => {
-      const reducers = require('./reducers').default
-      store.replaceReducer(reducers(store.asyncReducers))
-    })
+      const reducers = require('./reducers').default; // eslint-disable-line global-require
+      store.replaceReducer(reducers(store.asyncReducers));
+    });
   }
 
-  return store
-}
+  return store;
+};

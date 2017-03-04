@@ -1,28 +1,25 @@
-import { connect } from 'react-redux'
-import { usernameChanged, usernameFocused, passwordChanged, passwordFocused } from '../Logic'
+import { connect } from 'react-redux';
+
 import { login } from 'api/actions';
 
+import { usernameChanged, usernameFocused, passwordChanged, passwordFocused } from '../Logic';
 import LoginForm from '../Components/LoginForm';
-
-/*  Object of action creators (can also be function that returns object).
-    Keys will be passed as props to presentational components. Here we are
-    implementing our wrapper around increment; the component doesn't care   */
 
 const mapDispatchToProps = {
   usernameChanged,
   usernameFocused,
   passwordChanged,
   passwordFocused,
-  login
-}
+  login,
+};
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   username: state.login.username,
   usernameError: state.login.usernameError,
   usernameTouched: state.login.usernameTouched,
   password: state.login.password,
   passwordError: state.login.passwordError,
-  passwordTouched: state.login.passwordTouched
-})
+  passwordTouched: state.login.passwordTouched,
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm)
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

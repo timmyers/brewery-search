@@ -2,6 +2,6 @@ import { setDispatch } from './socket';
 import saga from './sagas';
 import { reducer } from './reducers';
 
-let APISaga = saga;
+const APISaga = saga;
 
 export { APISaga, setDispatch, reducer };

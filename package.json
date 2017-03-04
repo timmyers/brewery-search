@@ -96,6 +96,7 @@
     "cheerio": "^0.20.0",
     "eslint": "^3.17.0",
     "eslint-config-airbnb": "^14.1.0",
+    "eslint-import-resolver-webpack": "^0.8.1",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.10.0"
@@ -113,7 +114,7 @@
     "deploy:dev": "better-npm-run deploy:dev",
     "deploy:prod": "better-npm-run deploy:prod",
     "dev": "better-npm-run dev",
-    "lint": "./node_modules/.bin/eslint server",
+    "lint": "./node_modules/.bin/eslint server app",
     "lint:fix": "npm run lint -- --fix",
     "start": "better-npm-run start",
     "test": "npm run lint"
