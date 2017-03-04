@@ -4,8 +4,7 @@ import Paper from 'material-ui/Paper'
 import VerticalFlex from 'components/VerticalFlex';
 
 const style = {
-	width: '100%',
-	height: '60px'
+	width: '100%'
 };
 
 const BreweryListItem = (props) => {
@@ -14,7 +13,8 @@ const BreweryListItem = (props) => {
 
 	const realStyle = {
 		...style,
-		backgroundColor: bold ? 'blue': 'white'
+		backgroundColor: bold ? '#b4c9ea': 'white',
+		height: bold ? '100px' : '60px'
 	};
 
 	return (
