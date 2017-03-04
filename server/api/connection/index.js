@@ -73,9 +73,10 @@ class APIConnection {
       if (actionHandlers[action] && message.hasOwnProperty('params')) {
 	      debug('received %s action', action)
 
-	      let responseAction = 'response';
+        const params = message.params;
+	      const responseAction = 'response';
 
-      	actionHandlers[action](params)
+      	actionHandlers[action](params, this)
       		.then(params => {
       			let response;
 

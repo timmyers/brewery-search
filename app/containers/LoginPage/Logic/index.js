@@ -56,7 +56,7 @@ const ACTION_HANDLERS = {
   [PASSWORD_INPUT_CHANGED] : (state, action) => {
   	let password = action.payload
   	let passwordError = ""
-  	if (password.length == 0) {
+  	if (password.length === 0) {
   		passwordError = "Password may not be empty"
   	}
   	return Object.assign({}, state, {
@@ -73,11 +73,13 @@ const ACTION_HANDLERS = {
   	let error = action.error;
   	if (error.username) {
 			return Object.assign({}, state, {
-	  		usernameError: error.username
+	  		usernameError: error.username,
+        passwordError: ''
 	  	})
 		}
 		else if (error.password) {
 			return Object.assign({}, state, {
+        usernameError: '',
 	  		passwordError: error.password
 	  	})
 		}

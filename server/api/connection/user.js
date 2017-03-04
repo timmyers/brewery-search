@@ -6,7 +6,7 @@ const db = require('../db');
 
 const userDB = db.user;
 
-function login(params) {
+function login(params, connection) {
 	return new Promise((resolve, reject) => {
 		let username = params.username
 	  let password = params.password
@@ -28,21 +28,25 @@ function login(params) {
 	        bcrypt.compare(password, user.password, (err, res) => {
 	          if (err) {
 	            debug('bcrypt error: ' + err)
-	            reject(new Error('Bcrypt error.'));
+	            return reject(new Error('Bcrypt error.'));
 	          }
 
 	          debug('bcrypt result: ' + res)
 
 	          if (!res) {
-	            resolve({
+	            return resolve({
 	            	error: {
 		              password: 'Incorrect password.'
 	            	}
-	            })
+	            });
 	          }
 
 	          resolve({
 	          	result: true
+	          });
+
+	          connection.setState("user", {
+	          	username
 	          });
 	        });
 	      }

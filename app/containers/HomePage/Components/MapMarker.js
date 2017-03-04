@@ -8,13 +8,14 @@ const markerDivStyle = {
   width: MARKER_SIZE,
   height: MARKER_SIZE,
   left: -MARKER_SIZE / 2,
-  top: -MARKER_SIZE
+  top: -MARKER_SIZE,
+  // backgroundColor: 'yellow'
 }
 
 const markerImageStyle = {
 	position: 'absolute',
   width: MARKER_SIZE,
-  height: MARKER_SIZE
+  height: MARKER_SIZE,
 }
 
 const markerLogoStyle = {
@@ -22,7 +23,7 @@ const markerLogoStyle = {
   width: IMAGE_SIZE,
   height: IMAGE_SIZE,
   left: (MARKER_SIZE / 2) - (IMAGE_SIZE / 2) - 1,
-  top: 7
+  top: 7,
 }
 
 const MapMarker = (props) => {

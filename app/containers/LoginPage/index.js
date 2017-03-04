@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux'
 
 import SimpleLayout from 'layouts/SimpleLayout';
 
@@ -6,16 +7,24 @@ import LoginForm from './Containers/LoginFormContainer';
 
 import {reducer} from './Logic';
 
-const LoginPage = () => (
-	<SimpleLayout>
-		{true ?
-			<LoginForm>
-			</LoginForm>
-		:
-			<span>Register</span>
-		}
-  </SimpleLayout>
-);
+const LoginPage = (props) => {
+	let user = props.user;
 
-export default LoginPage;
+	return (
+		<SimpleLayout>
+			{user ?
+				<span>Logged In!</span>
+			:
+				<LoginForm />
+			}
+	  </SimpleLayout>
+	);
+}
+
+const mapStateToProps = (state) => ({
+  user: state.api.state.user
+})
+
+export default connect(mapStateToProps)(LoginPage)
+
 export {reducer}

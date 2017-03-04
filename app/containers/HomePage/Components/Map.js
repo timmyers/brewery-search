@@ -8,7 +8,19 @@ const Map = (props) => {
     if (props.onBoundsChange) {
     	props.onBoundsChange(topLat, leftLng, bottomLat, rightLng);
     }
-  }
+  };
+
+  let onChildMouseEnter = (key, childProps) => {
+    if (props.onChildMouseEnter) {
+      props.onChildMouseEnter(childProps);
+    }
+  };
+
+  let onChildMouseLeave = (key, childProps) => {
+    if (props.onChildMouseLeave) {
+      props.onChildMouseLeave(childProps);
+    }
+  };
 
 	return (
     <GoogleMap
@@ -18,6 +30,8 @@ const Map = (props) => {
       center={ {lat: 39.711439, lng: -104.992366} }
       zoom={10}
       onBoundsChange={onBoundsChange}
+      onChildMouseEnter={onChildMouseEnter}
+      onChildMouseLeave={onChildMouseLeave}
     >
       {props.children}
     </GoogleMap>

@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux'
 
-import { reducer, mapBoundsChanged } from './Logic';
+import { reducer, mapBoundsChanged, childMouseEntered, childMouseLeft} from './Logic';
 
 import Map from './Components/Map';
 import MapMarker from './Components/MapMarker';
@@ -12,21 +12,34 @@ import VerticalFlex from 'components/VerticalFlex';
 
 const HomePage = (props) => {
   let breweries = props.breweries;
+  let hoveredBreweryID = props.hoveredBreweryID;
 
   let onMapBoundsChange = (topLat, leftLng, bottomLat, rightLng) => {
     props.mapBoundsChanged({topLat, leftLng, bottomLat, rightLng});
   }
 
+  let onChildMouseEnter = childProps => {
+    props.childMouseEntered(childProps);
+  }
+
+  let onChildMouseLeft = childProps => {
+    props.childMouseLeft(childProps);
+  }
+
   return (
     <CoreLayout>
-      <Map onBoundsChange={onMapBoundsChange}>
+      <Map 
+        onBoundsChange={onMapBoundsChange}
+        onChildMouseEnter={onChildMouseEnter}
+        onChildMouseLeave={onChildMouseLeft}
+      >
         {breweries.map(brewery =>
           <MapMarker lat={brewery.lat} lng={brewery.lng}  brewery={brewery} />
         )}
       </Map>
       <VerticalFlex scroll={true} justifyContent="flex-start">
         {breweries.map(brewery =>
-          <BreweryListItem brewery={brewery} />
+          <BreweryListItem brewery={brewery} bold={hoveredBreweryID == brewery.breweryID} />
         )}
       </VerticalFlex>
     </CoreLayout>
@@ -40,6 +53,7 @@ HomePage.propTypes = {
 const mapStateToProps = (state) => {
   let breweries = state.api.state.breweries || [];
   let bounds = state.map.bounds;
+  let hoveredBreweryID = state.map.hoveredBreweryID;
 
   if (bounds) {
     let {topLat, leftLng, bottomLat, rightLng} = bounds;
@@ -50,11 +64,13 @@ const mapStateToProps = (state) => {
     })
   }
 
-  return { breweries }
+  return { breweries, hoveredBreweryID };
 }
 
 const mapDispatchToProps = {
-  mapBoundsChanged
+  mapBoundsChanged,
+  childMouseEntered,
+  childMouseLeft
 }
 
 export {reducer}

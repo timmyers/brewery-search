@@ -10,9 +10,15 @@ const style = {
 
 const BreweryListItem = (props) => {
 	let brewery = props.brewery;
+	let bold = props.bold;
+
+	const realStyle = {
+		...style,
+		backgroundColor: bold ? 'blue': 'white'
+	};
 
 	return (
-    <Paper style={style} zDepth={1} rounded={false}>
+    <Paper style={realStyle} zDepth={1} rounded={false}>
     	<VerticalFlex>
 	      <span>{brewery.name}</span>
       </VerticalFlex>
