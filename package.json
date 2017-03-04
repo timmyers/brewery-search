@@ -96,17 +96,14 @@
     "ws": "^1.1.1"
   },
   "devDependencies": {
-    "babel-eslint": "^7.1.0",
     "babel-polyfill": "^6.16.0",
     "bluebird": "^3.4.7",
     "cheerio": "^0.20.0",
-    "eslint": "^3.11.1",
-    "eslint-config-standard": "^6.2.1",
-    "eslint-config-standard-react": "^4.0.0",
-    "eslint-plugin-babel": "latest",
-    "eslint-plugin-promise": "^3.4.0",
-    "eslint-plugin-react": "latest",
-    "eslint-plugin-standard": "^2.0.1"
+    "eslint": "^3.17.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.0"
   },
   "engines": {
     "node": "6.9.2"
@@ -121,7 +118,7 @@
     "deploy:dev": "better-npm-run deploy:dev",
     "deploy:prod": "better-npm-run deploy:prod",
     "dev": "better-npm-run dev",
-    "lint": "eslint bin build config server src tests",
+    "lint": "./node_modules/.bin/eslint server",
     "lint:fix": "npm run lint -- --fix",
     "start": "better-npm-run start",
     "test": "better-npm-run test",
