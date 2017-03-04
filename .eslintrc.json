@@ -4,5 +4,15 @@
         "react",
         "jsx-a11y",
         "import"
-    ]
+    ],
+    "rules": {
+        "comma-dangle": ["error", {
+            "arrays": "always-multiline",
+            "objects": "always-multiline",
+            "imports": "never",
+            "exports": "never",
+            "functions": "never"
+        }],
+        "no-underscore-dangle": [0]
+    }
 }

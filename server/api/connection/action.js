@@ -1,10 +1,10 @@
-const debug = require('debug')('app:api:connection')
+const debug = require('debug')('app:api:connection');
 
-let actionHandlers = {}
+const actionHandlers = {};
 
 function addActionHandler(action, callback) {
-	debug("adding action handler for: %s", action);
-	actionHandlers[action] = callback;
+  debug('adding action handler for: ', action);
+  actionHandlers[action] = callback;
 }
 
-module.exports = { actionHandlers, addActionHandler }
+module.exports = { actionHandlers, addActionHandler };

@@ -1,159 +1,159 @@
-const debug = require('debug')('app:api:connection')
-const jsonpatch = require('fast-json-patch'); 
+const debug = require('debug')('app:api:connection');
+const jsonpatch = require('fast-json-patch');
+const has = require('has');
+
 const { actionHandlers } = require('./action');
-const { getBreweries } = require('../db').brewery
+const { getBreweries } = require('../db').brewery;
 
 require('./user');
 
 class APIConnection {
-	constructor(ws) {
-		debug('ws connection made')
+  constructor(ws) {
+    debug('ws connection made');
 
-		this.ws = ws;
+    this.ws = ws;
 
-		this.messageNum = 0;
+    this.messageNum = 0;
     this.lastAck = -1;
     this.stateSeq = 0;
     this.state = {};
     this.patchObserver = jsonpatch.observe(this.state);
 
-    this.ackTimeouts = {}
+    this.ackTimeouts = {};
 
-		ws.on('message', message => {
-	    this.onMessage(message)
-	  });
+    ws.on('message', (message) => {
+      this.onMessage(message);
+    });
 
-	  this.sendFullState();
+    this.sendFullState();
 
       // Setup the timer interval for sending patches
     this.stateInterval = setInterval(() => {
-      let patches = jsonpatch.generate(this.patchObserver);
+      const patches = jsonpatch.generate(this.patchObserver);
 
       if (!patches.length) {
         return;
       }
 
-      this.stateSeq++;
+      this.stateSeq += 1;
       this.sendMessage({
         action: 'update',
         update: patches,
-        stateSeq: this.stateSeq
+        stateSeq: this.stateSeq,
       });
     }, 100);
 
-    this.setState("user", null);
-    this.setState("breweries", getBreweries());
+    this.setState('user', null);
+    this.setState('breweries', getBreweries());
 
     ws.on('close', () => {
-    	clearTimeout(this.stateInterval);
-    	clearTimeout(this.changeInterval);
+      clearTimeout(this.stateInterval);
+      clearTimeout(this.changeInterval);
     });
-	}
+  }
 
-	onMessage(messageString) {
-		let message
+  onMessage(messageString) {
+    let message;
+
     try {
-      message = JSON.parse(messageString)
+      message = JSON.parse(messageString);
     } catch (e) {
-      debug('received invalid json')
-      return
+      debug('received invalid json');
+      return;
     }
 
-    debug('received %s', messageString)
+    debug('received %s', messageString);
 
-    if (message.hasOwnProperty('action') && message.hasOwnProperty('id')) {
-      let action = message.action;
-      let id = message.id;
+    if (has(message, 'action') && has(message, 'id')) {
+      const action = message.action;
+      const id = message.id;
 
-      if (action == 'ack') {
-      	this.onAck(id);
-      	return;
+      if (action === 'ack') {
+        this.onAck(id);
+        return;
       }
 
-      if (actionHandlers[action] && message.hasOwnProperty('params')) {
-	      debug('received %s action', action)
+      if (actionHandlers[action] && has(message, 'params')) {
+        debug('received %s action', action);
 
-        const params = message.params;
-	      const responseAction = 'response';
+        const inputParams = message.params;
+        const responseAction = 'response';
 
-      	actionHandlers[action](params, this)
-      		.then(params => {
-      			let response;
+        actionHandlers[action](inputParams, this)
+          .then((params) => {
+            if (params.result) {
+              const result = params.result;
 
-      			if (params.result) {
-      				let result = params.result;
+              debug('Success: %s', JSON.stringify(result));
 
-	      			debug('Success: %s', JSON.stringify(result));
+              const response = {
+                action: responseAction,
+                id,
+                result,
+              };
 
-	      			let response = {
-	      				action: responseAction,
-	      				id,
-	      				result
-	      			}
+              this.ws.send(JSON.stringify(response));
+            } else if (params.error) {
+              const error = params.error;
 
-	      			this.ws.send(JSON.stringify(response));
-      			}
-      			else if (params.error) {
-      				let error = params.error;
+              debug('Failure: %s', JSON.stringify(error));
 
-	      			debug('Failure: %s', JSON.stringify(error));
+              const response = {
+                action: responseAction,
+                id,
+                error,
+              };
 
-	      			let response = {
-	      				action: responseAction,
-	      				id,
-	      				error
-	      			}
+              this.ws.send(JSON.stringify(response));
+            }
+          })
+          .catch((error) => {
+            debug('Failure: ', error);
 
-	      			this.ws.send(JSON.stringify(response));
-      			}
+            const response = {
+              action: responseAction,
+              id,
+              error: 'Internal error',
+            };
 
-      		})
-      		.catch(error => {
-      			debug('Failure: ' + error);
-
-      			let response = {
-      				action: responseAction,
-      				id,
-    					error: "Internal error"
-      			};
-
-      			this.ws.send(JSON.stringify(response));
-      		})
-      		.catch(Error, err => {
-      			debug('Failure: ' + errorParams);
-      		});
-      }
-      else {
-      	debug('received unhandled %s action', action)
+            this.ws.send(JSON.stringify(response));
+          })
+          .catch(Error, (err) => {
+            debug('Failure: ', err);
+          });
+      } else {
+        debug('received unhandled %s action', action);
       }
     }
-	}
+  }
 
-	onAck(messageID) {
-      if (this.lastAck != messageID - 1) {
-        debug('Missed an ack!');
-        this.sendFullState();
-      }
-      this.lastAck = messageID;
+  onAck(messageID) {
+    if (this.lastAck !== messageID - 1) {
+      debug('Missed an ack!');
+      this.sendFullState();
+    }
+    this.lastAck = messageID;
 
-      let messageIDStr = String(messageID);
-      clearTimeout(this.ackTimeouts[messageIDStr]);
-      delete this.ackTimeouts[messageIDStr];
-	}
+    const messageIDStr = String(messageID);
+    clearTimeout(this.ackTimeouts[messageIDStr]);
+    delete this.ackTimeouts[messageIDStr];
+  }
 
-  sendMessage(msg) {
+  sendMessage(msgIn) {
     // if (!this.connected) {
     //   return;
     // }
+    const msg = msgIn;
 
-    let ackNum = this.messageNum++;
-    msg['id'] = ackNum;
+    const ackNum = this.messageNum;
+    this.messageNum += 1;
+    msg.id = ackNum;
 
-    let msgStr = JSON.stringify(msg);
+    const msgStr = JSON.stringify(msg);
     debug('sending: %s', msgStr);
 
     this.ackTimeouts[String(ackNum)] = setTimeout(() => {
-      debug("Timed out on ack " + ackNum);
+      debug('Timed out on ack ', ackNum);
       this.sendFullState();
     }, 3000);
 
@@ -168,10 +168,10 @@ class APIConnection {
     this.sendMessage({
       action: 'state',
       state: this.state,
-      stateSeq: this.stateSeq
+      stateSeq: this.stateSeq,
     });
   }
 
 }
 
-module.exports = { APIConnection }
+module.exports = { APIConnection };
