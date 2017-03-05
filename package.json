@@ -93,13 +93,18 @@
   },
   "devDependencies": {
     "babel-polyfill": "^6.16.0",
+    "chai": "^3.5.0",
+    "chai-as-promised": "^6.0.0",
     "cheerio": "^0.20.0",
     "eslint": "^3.17.0",
     "eslint-config-airbnb": "^14.1.0",
     "eslint-import-resolver-webpack": "^0.8.1",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
-    "eslint-plugin-react": "^6.10.0"
+    "eslint-plugin-mocha": "^4.8.0",
+    "eslint-plugin-react": "^6.10.0",
+    "mocha": "^3.2.0",
+    "sinon": "^2.0.0-pre.6"
   },
   "engines": {
     "node": "6.9.2"
@@ -117,6 +122,6 @@
     "lint": "./node_modules/.bin/eslint server app",
     "lint:fix": "npm run lint -- --fix",
     "start": "better-npm-run start",
-    "test": "npm run lint"
+    "test": "./node_modules/mocha/bin/mocha server/**/*.spec.js"
   }
 }

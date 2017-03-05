@@ -18,7 +18,6 @@ const db = MongoClient.connectAsync(url)
     throw err;
   });
 
-
 function get() {
   return db;
 }

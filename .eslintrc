@@ -2,7 +2,8 @@
   "extends": "airbnb",
   "env": {
     "browser": true,
-    "node": true
+    "node": true,
+    "mocha": true
   },
   "globals": {
      "__DEV__": false,
@@ -13,7 +14,8 @@
   "plugins": [
     "react",
     "jsx-a11y",
-    "import"
+    "import",
+    "mocha"
   ],
   "rules": {
     "comma-dangle": ["error", {
