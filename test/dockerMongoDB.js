@@ -3,12 +3,17 @@ const Docker = require('dockerode');
 const _ = require('lodash');
 const debug = require('debug')('test:init:docker-mongo-db');
 
-const docker = new Docker();
-
-const imageName = 'brewTestMongodb';
 
 // Returns a promise that resolves when MongoDB is running in docker.
 const mongoDBInit = () => new Promise((resolve, reject) => {
+  if (process.env.TRAVIS) {
+    debug('Detected Travis environment, assuming MongoDB running.');
+    resolve();
+  }
+
+  const docker = new Docker();
+  const imageName = 'brewTestMongodb';
+
   docker.listContainers({
     all: true,
   }, (err, containers) => {
