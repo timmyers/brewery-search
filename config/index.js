@@ -49,14 +49,6 @@ const config = {
     'react-redux',
     'react-router',
     'redux'
-  ],
-
-  // ----------------------------------
-  // Test Configuration
-  // ----------------------------------
-  coverage_reporters : [
-    { type : 'text-summary' },
-    { type : 'lcov', dir : 'coverage' }
   ]
 }
 

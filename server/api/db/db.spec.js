@@ -1,6 +1,11 @@
 /* eslint-disable */
-const should = require('chai').should();
-const Promise = require('bluebird');
+const chai = require("chai");
+const chaiAsPromised = require("chai-as-promised");
+
+const MongoDb = require('mongodb').Db;
+
+chai.use(chaiAsPromised);
+const should = chai.should();
 
 const db = require('./db');
 
@@ -10,7 +15,11 @@ describe('db', function() {
       db.get.should.be.a('function');
     });
     it('should return a promise', function() {
-      db.get().should.be.an.instanceOf(Promise);
+      db.get().should.be.a('Promise');
+    });
+    it('should connect successfully', function() {
+      db.get().should.eventually.be.an.instanceOf(MongoDb);
+      // db.get().should.be.fulfilled;
     });
   });
 });

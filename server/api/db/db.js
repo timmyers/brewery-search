@@ -1,14 +1,16 @@
-const Promise = require('bluebird');
 const MongoClient = require('mongodb').MongoClient;
 const debug = require('debug')('app:api:db');
 
-// Turn mongoDB callbacks into promises
-Promise.promisifyAll(MongoClient);
+const config = require('../../../config');
 
 // Connection URL
-const url = 'mongodb://heroku_pn4vdj5h:ic2a038up7pjedvhq3s33eqjjn@ds155428.mlab.com:55428/heroku_pn4vdj5h';
+let url = 'mongodb://heroku_pn4vdj5h:ic2a038up7pjedvhq3s33eqjjn@ds155428.mlab.com:55428/heroku_pn4vdj5h';
 
-const db = MongoClient.connectAsync(url)
+if (config.env === 'test') {
+  url = 'mongodb://localhost:27017';
+}
+
+const db = MongoClient.connect(url)
   .then((newDB) => {
     debug('MongoDB connection successful.');
     return newDB;

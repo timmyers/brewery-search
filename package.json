@@ -40,6 +40,13 @@
       "env": {
         "DEBUG": "app:*"
       }
+    },
+    "test": {
+      "command": "node test && ./node_modules/mocha/bin/mocha server/**/*.spec.js",
+      "env": {
+        "NODE_ENV": "test",
+        "DEBUG": "test:*,app:*"
+      }
     }
   },
   "dependencies": {
@@ -96,6 +103,7 @@
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
     "cheerio": "^0.20.0",
+    "dockerode": "^2.3.2",
     "eslint": "^3.17.0",
     "eslint-config-airbnb": "^14.1.0",
     "eslint-import-resolver-webpack": "^0.8.1",
@@ -122,6 +130,6 @@
     "lint": "./node_modules/.bin/eslint server app",
     "lint:fix": "npm run lint -- --fix",
     "start": "better-npm-run start",
-    "test": "./node_modules/mocha/bin/mocha server/**/*.spec.js"
+    "test": "better-npm-run test"
   }
 }
