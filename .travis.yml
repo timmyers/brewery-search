@@ -10,7 +10,10 @@ addons:
       - ubuntu-toolchain-r-test
     packages:
       - g++-4.8
-script: npm run lint && npm run test && npm run deploy:prod
+script:
+  - npm run lint
+  - npm run test
+  - npm run deploy:prod
 
 deploy:
   provider: heroku
