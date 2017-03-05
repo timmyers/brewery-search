@@ -18,7 +18,7 @@ describe('db', function() {
       db.get().should.be.a('Promise');
     });
     it('should connect successfully', function() {
-      db.get().should.eventually.be.an.instanceOf(MongoDb);
+      return db.get().should.eventually.be.an.instanceOf(MongoDb);
       // db.get().should.be.fulfilled;
     });
   });
