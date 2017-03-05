@@ -8,13 +8,13 @@ const debug = require('debug')('test:init:docker-mongo-db');
 const mongoDBInit = () => new Promise((resolve, reject) => {
   if (process.env.TRAVIS) {
     debug('Detected Travis environment, assuming MongoDB running.');
-    resolve();
+    return resolve();
   }
 
   const docker = new Docker();
   const imageName = 'brewTestMongodb';
 
-  docker.listContainers({
+  return docker.listContainers({
     all: true,
   }, (err, containers) => {
     const containerIndex = _.findIndex(containers, (containerInfo) => {
@@ -77,34 +77,5 @@ const mongoDBInit = () => new Promise((resolve, reject) => {
     }
   });
 });
-
-// Returns a promise that resolves when MongoDB is running in docker.
-// const mongoDBInit = () => new Promise((resolve, reject) => {
-  // docker.createContainer({
-  //   Image: 'mongo',
-  //   name: 'brewTestMongodb',
-  //   ExposedPorts: {
-  //     '27017/tcp': {},
-  //   },
-  //   PortBindings: {
-  //     '27017/tcp': [
-  //       { HostPort: '27017' },
-  //     ],
-  //   },
-  // },
-  // (err, container) => {
-  //   if (err) {
-  //     return reject(err);
-  //   }
-  //
-  //   return container.start((startErr) => {
-  //     if (startErr) {
-  //       reject(startErr);
-  //     } else {
-  //       resolve();
-  //     }
-  //   });
-  // });
-// });
 
 module.exports = mongoDBInit;
