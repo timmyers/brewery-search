@@ -14,12 +14,11 @@ describe('db', function() {
     it('should be a function', function() {
       db.get.should.be.a('function');
     });
-    // it('should return a promise', function() {
-    //   return db.get().should.be.a('Promise');
-    // });
+    it('should return a promise', function() {
+      return db.get().should.be.a('Promise');
+    });
     it('should connect successfully', function() {
       return db.get().should.eventually.be.an.instanceOf(MongoDb);
-      // db.get().should.be.fulfilled;
     });
   });
 });
