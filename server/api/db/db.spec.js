@@ -15,7 +15,7 @@ describe('db', function() {
       db.get.should.be.a('function');
     });
     it('should return a promise', function() {
-      db.get().should.be.a('Promise');
+      return db.get().should.be.a('Promise');
     });
     it('should connect successfully', function() {
       return db.get().should.eventually.be.an.instanceOf(MongoDb);
