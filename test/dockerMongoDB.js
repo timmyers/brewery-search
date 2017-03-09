@@ -41,16 +41,18 @@ const mongoDBInit = () => new Promise((resolve, reject) => {
       },
       (createErr, container) => {
         if (createErr) {
-          return reject(createErr);
+          reject(createErr);
+          return;
         }
 
         debug('Starting newly created container');
-        return container.start((startErr) => {
+        container.start((startErr) => {
           if (startErr) {
-            return reject(startErr);
+            reject(startErr);
+            return;
           }
           debug('Container started, give 5 seconds to get going.');
-          return setTimeout(() => {
+          setTimeout(() => {
             resolve();
           }, 5000);
         });
@@ -60,7 +62,8 @@ const mongoDBInit = () => new Promise((resolve, reject) => {
 
       if (containerInfo.State === 'running') {
         debug('Container found already running.');
-        return resolve();
+        resolve();
+        return;
       }
 
       debug('Container found not running: ', containerInfo.State);
@@ -70,9 +73,13 @@ const mongoDBInit = () => new Promise((resolve, reject) => {
       debug('Restarting existing container');
       container.start((startErr) => {
         if (startErr) {
-          return reject(startErr);
+          reject(startErr);
+          return;
         }
-        return resolve();
+        debug('Container restarted, give 5 seconds to get going.');
+        setTimeout(() => {
+          resolve();
+        }, 5000);
       });
     }
   });
