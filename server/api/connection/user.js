@@ -31,17 +31,19 @@ function login(params, connection) {
         bcrypt.compare(password, user.password, (bcryptErr, res) => {
           if (bcryptErr) {
             debug('bcrypt error: ', bcryptErr);
-            return reject(new Error('Bcrypt error.'));
+            reject(new Error('Bcrypt error.'));
+            return;
           }
 
           debug('bcrypt result: ', res);
 
           if (!res) {
-            return resolve({
+            resolve({
               error: {
                 password: 'Incorrect password.',
               },
             });
+            return;
           }
 
           const userID = user.userID;

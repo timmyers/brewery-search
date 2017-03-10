@@ -1,6 +1,5 @@
 import React from 'react';
 import AppBar from 'material-ui/AppBar';
-import Paper from 'material-ui/Paper';
 
 import HorizontalFlex from 'components/HorizontalFlex';
 
@@ -18,8 +17,6 @@ const Header = () => (
     }
   />
 );
-      //<HeaderLink to="/">Home</HeaderLink>
-      //<HeaderLink to="/login">Log In</HeaderLink>
 
 export { HeaderLink };
 export default Header;
