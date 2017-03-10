@@ -6,16 +6,12 @@ import Header from 'components/Header';
 import Footer from 'components/Footer';
 
 const SimpleLayout = ({ children }) => (
-  <VerticalFlex>
-    <VerticalFlex height="10%">
-      <Header />
-    </VerticalFlex>
-    <HorizontalFlex height="85%">
+  <VerticalFlex full>
+    <Header />
+    <HorizontalFlex fullWidth flexGrow={1}>
       {children}
     </HorizontalFlex>
-    <VerticalFlex height="5%">
-      <Footer />
-    </VerticalFlex>
+    <Footer />
   </VerticalFlex>
 );
 

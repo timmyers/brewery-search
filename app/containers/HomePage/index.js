@@ -36,10 +36,12 @@ const HomePage = (props) => {
           <MapMarker lat={brewery.lat} lng={brewery.lng} brewery={brewery} />
         )}
       </Map>
-      <VerticalFlex scroll justifyContent="flex-start">
-        {breweries.map(brewery =>
-          <BreweryListItem brewery={brewery} bold={hoveredBreweryID === brewery.breweryID} />
-        )}
+      <VerticalFlex full scroll>
+        <VerticalFlex fullWidth justifyContent="flex-start">
+          {breweries.map(brewery =>
+            <BreweryListItem brewery={brewery} bold={hoveredBreweryID === brewery.breweryID} />
+          )}
+        </VerticalFlex>
       </VerticalFlex>
     </CoreLayout>
   );

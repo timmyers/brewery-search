@@ -20,7 +20,7 @@ function usernameExists(username, callback) {
 }
 
 function find(username, callback) {
-  collection.findOne({ username }, { fields: { password: 1 } }, (err, user) => {
+  collection.findOne({ username }, { fields: { password: 1, userID: 1 } }, (err, user) => {
     if (err) {
       return callback(err);
     }
@@ -28,4 +28,13 @@ function find(username, callback) {
   });
 }
 
-module.exports = { usernameExists, find };
+function findByUserID(userID, callback) {
+  collection.findOne({ userID }, { fields: { password: 0 } }, (err, user) => {
+    if (err) {
+      return callback(err);
+    }
+    return callback(null, user);
+  });
+}
+
+module.exports = { usernameExists, find, findByUserID };

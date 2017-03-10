@@ -1,5 +1,5 @@
 const Promise = require('bluebird');
-const Docker = require('dockerode');
+const Docker = require('dockerode'); // eslint-disable-line import/no-extraneous-dependencies
 const _ = require('lodash');
 const debug = require('debug')('test:init:docker-mongo-db');
 

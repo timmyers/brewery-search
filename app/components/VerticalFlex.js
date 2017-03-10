@@ -2,21 +2,38 @@ import styled from 'styled-components';
 
 const VerticalFlex = styled.div`
   display: flex;
-  height: ${props => (
-    props.height ? props.height : '100%'
-  )};
-  width: ${props => (
-    props.width ? props.width : '100%'
-  )};
   flex-direction: column;
-  background-color: ${props => props.backgroundColor};
-  position: relative;
+  align-items: center;
+  ${(props) => {
+    let ret = '';
+    if (props.full || props.fullHeight) {
+      ret += 'height: 100%;';
+    }
+    if (props.full || props.fullWidth) {
+      ret += 'width: 100%;';
+    }
+    if (props.height) {
+      ret += `height: ${props.height};`;
+    }
+    if (props.width) {
+      ret += `width: ${props.width};`;
+    }
+    if (props.backgroundColor) {
+      ret += `background-color: ${props.backgroundColor};`;
+    }
+    if (props.scroll) {
+      ret += 'overflow-y: auto;';
+    }
+    if (props.flexGrow) {
+      ret += `flex-grow: ${props.flexGrow};`;
+    }
+    return ret;
+  }};
   justify-content: ${props => (
     props.justifyContent ? props.justifyContent : 'center'
   )};
-  align-items: center;
-  overflow: ${props => (
-    props.scroll ? 'auto' : ''
+  position: ${props => (
+    props.position ? props.position : 'relative'
   )};
 `;
 

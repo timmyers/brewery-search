@@ -1,6 +1,7 @@
 import Websocket from 'reconnecting-websocket';
 import Promise from 'bluebird';
-import { setState, updateState } from './actions';
+
+import { connected, disconnected, setState, updateState } from './actions';
 
 let dispatch;
 
@@ -22,13 +23,11 @@ let messageID = 0;
 const responseResolvers = {};
 
 ws.addEventListener('open', () => {
-  console.log('socket connected');
-  // this.props.connected(true)
+  dispatch(connected());
 });
 
 ws.addEventListener('close', () => {
-  console.log('socket disconnected');
-  // this.props.connected(false)
+  dispatch(disconnected());
 });
 
 ws.addEventListener('message', (event) => {

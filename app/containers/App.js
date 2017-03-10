@@ -59,7 +59,7 @@ const App = (props) => {
         }}
       >
         <MuiThemeProvider muiTheme={muiTheme}>
-          <VerticalFlex>
+          <VerticalFlex full>
             <Match exactly pattern="/" component={HomePage} />
             <Match pattern="/login" component={LoginPage} />
           </VerticalFlex>

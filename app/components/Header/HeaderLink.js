@@ -4,11 +4,10 @@ import { Link } from 'react-router';
 
 const HeaderLink = props => (
   <Link to={props.to}>
-    <FlatButton primary>
+    <FlatButton>
       {props.children}
     </FlatButton>
   </Link>
 );
-
 
 export default HeaderLink;

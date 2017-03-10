@@ -1,10 +1,19 @@
 import React from 'react';
 import Paper from 'material-ui/Paper';
 
+import HorizontalFlex from 'components/HorizontalFlex';
 import VerticalFlex from 'components/VerticalFlex';
 
 const style = {
   width: '100%',
+  flexShrink: 0,
+};
+
+const imgStyle = {
+  width: 40,
+  height: 40,
+  marginRight: 10,
+  marginLeft: 10,
 };
 
 const BreweryListItem = (props) => {
@@ -19,8 +28,11 @@ const BreweryListItem = (props) => {
 
   return (
     <Paper style={realStyle} zDepth={1} rounded={false}>
-      <VerticalFlex>
-        <span>{brewery.name}</span>
+      <VerticalFlex full>
+        <HorizontalFlex full justifyContent="flex-start">
+          <img style={imgStyle} src={brewery.imgSrc} alt={brewery.name} />
+          <span>{brewery.name}</span>
+        </HorizontalFlex>
       </VerticalFlex>
     </Paper>
   );

@@ -6,21 +6,19 @@ import Header from 'components/Header';
 import Footer from 'components/Footer';
 
 const CoreLayout = ({ children }) => (
-  <VerticalFlex>
-    <VerticalFlex height="10%">
-      <Header />
-    </VerticalFlex>
-    <HorizontalFlex height="85%">
-      <HorizontalFlex width="70%">
-        {children[0]}
-      </HorizontalFlex>
-      <HorizontalFlex width="30%">
-        {children[1]}
+  <VerticalFlex full>
+    <Header />
+    <HorizontalFlex fullWidth flexGrow={1}>
+      <HorizontalFlex full position="absolute">
+        <HorizontalFlex fullHeight width="70%">
+          {children[0]}
+        </HorizontalFlex>
+        <HorizontalFlex fullHeight width="30%">
+          {children[1]}
+        </HorizontalFlex>
       </HorizontalFlex>
     </HorizontalFlex>
-    <VerticalFlex height="5%">
-      <Footer />
-    </VerticalFlex>
+    <Footer />
   </VerticalFlex>
 );
 
