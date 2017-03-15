@@ -6,7 +6,7 @@ import SimpleLayout from 'layouts/SimpleLayout';
 import LoginForm from './Containers/LoginFormContainer';
 import { reducer } from './Logic';
 
-const LoginPage = (props) => {
+const Login = (props) => {
   const user = props.user;
 
   return (
@@ -24,6 +24,6 @@ const mapStateToProps = state => ({
   user: state.api.state.user,
 });
 
-export default connect(mapStateToProps)(LoginPage);
+export default connect(mapStateToProps)(Login);
 
 export { reducer };

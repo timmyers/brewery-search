@@ -1,13 +1,11 @@
 import { combineReducers } from 'redux';
 
 import { reducer as apiReducer } from 'api';
-import { reducer as loginReducer } from 'containers/LoginPage';
-import { reducer as mapReducer } from 'containers/HomePage';
-import locationReducer from './location';
+import { reducer as loginReducer } from 'routes/Login';
+import { reducer as mapReducer } from 'routes/Home';
 
 const makeRootReducer = asyncReducers => (
   combineReducers({
-    router: locationReducer,
     api: apiReducer,
     login: loginReducer,
     map: mapReducer,

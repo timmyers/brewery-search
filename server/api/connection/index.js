@@ -1,5 +1,6 @@
 const debug = require('debug')('app:api:connection');
 const jsonpatch = require('fast-json-patch');
+const WebSocket = require('ws');
 const has = require('has');
 
 const { actionHandlers } = require('./action');
@@ -140,9 +141,11 @@ class APIConnection {
   }
 
   sendMessage(msgIn) {
-    // if (!this.connected) {
-    //   return;
-    // }
+    if (this.ws.readyState !== WebSocket.OPEN) {
+      debug('Tried to send message on disconnected socket.');
+      return;
+    }
+
     const msg = msgIn;
 
     const ackNum = this.messageNum;

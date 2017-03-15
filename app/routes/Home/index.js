@@ -9,7 +9,7 @@ import Map from './Components/Map';
 import MapMarker from './Components/MapMarker';
 import BreweryListItem from './Components/BreweryListItem';
 
-const HomePage = (props) => {
+const Home = (props) => {
   const breweries = props.breweries;
   const hoveredBreweryID = props.hoveredBreweryID;
 
@@ -36,18 +36,16 @@ const HomePage = (props) => {
           <MapMarker lat={brewery.lat} lng={brewery.lng} brewery={brewery} />
         )}
       </Map>
-      <VerticalFlex full scroll>
-        <VerticalFlex fullWidth justifyContent="flex-start">
-          {breweries.map(brewery =>
-            <BreweryListItem brewery={brewery} bold={hoveredBreweryID === brewery.breweryID} />
-          )}
-        </VerticalFlex>
+      <VerticalFlex full scroll justifyContent="flex-start">
+        {breweries.map(brewery =>
+          <BreweryListItem brewery={brewery} bold={hoveredBreweryID === brewery.breweryID} />
+        )}
       </VerticalFlex>
     </CoreLayout>
   );
 };
 
-HomePage.propTypes = {
+Home.propTypes = {
   // breweries: PropTypes.array,
 };
 
@@ -75,4 +73,4 @@ const mapDispatchToProps = {
 };
 
 export { reducer };
-export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

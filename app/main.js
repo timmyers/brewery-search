@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
-import App from 'containers/App';
+import App from 'routes/App';
 import { setDispatch } from 'api';
 
 import createStore from './store/createStore';
@@ -51,8 +51,8 @@ if (__DEV__) {
 if (__DEV__) {
   // Hot Module Replacement API
   if (module.hot) {
-    module.hot.accept('containers/App', () => {
-      const NextApp = require('containers/App').default; // eslint-disable-line global-require
+    module.hot.accept('routes/App', () => {
+      const NextApp = require('routes/App').default; // eslint-disable-line global-require
       ReactDOM.render(
         <AppContainer>
           <NextApp store={store} />

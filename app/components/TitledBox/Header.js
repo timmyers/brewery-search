@@ -3,15 +3,12 @@ import { orange500 } from 'material-ui/styles/colors';
 
 import HorizontalFlex from 'components/HorizontalFlex';
 
-const LoginHeader = props => (
-  <HorizontalFlex
-    backgroundColor={orange500}
-    height="40px"
-  >
+const Header = ({ title }) => (
+  <HorizontalFlex fullWidth height="40px" backgroundColor={orange500}>
     <span color="white">
-      {props.children}
+      {title}
     </span>
   </HorizontalFlex>
 );
 
-export default LoginHeader;
+export default Header;

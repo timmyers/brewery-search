@@ -1,8 +1,12 @@
 import { applyMiddleware, compose, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
+import createBrowserHistory from 'history/createBrowserHistory';
+import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { APISaga } from 'api';
 
 import makeRootReducer from './reducers';
+
+export const history = createBrowserHistory();
 
 // create the saga middleware
 const sagaMiddleware = createSagaMiddleware();
@@ -11,7 +15,7 @@ export default (initialState = {}) => {
   // ======================================================
   // Middleware Configuration
   // ======================================================
-  const middleware = [sagaMiddleware];
+  const middleware = [sagaMiddleware, routerMiddleware(history)];
 
   // ======================================================
   // Store Enhancers
@@ -28,7 +32,7 @@ export default (initialState = {}) => {
   // Store Instantiation and HMR Setup
   // ======================================================
   const store = createStore(
-    makeRootReducer(),
+    connectRouter(history)(makeRootReducer()), // new root reducer with router state
     initialState,
     compose(
       applyMiddleware(...middleware),

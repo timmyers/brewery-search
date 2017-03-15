@@ -10,9 +10,7 @@ const style = {
 
 const Holder = props => (
   <Paper style={style} zDepth={1}>
-    <VerticalFlex
-      justifyContent="space-between"
-    >
+    <VerticalFlex full justifyContent="space-between">
       { props.children }
     </VerticalFlex>
   </Paper>

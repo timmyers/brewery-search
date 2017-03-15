@@ -89,5 +89,13 @@ function authorize(params, connection) {
   });
 }
 
+function logout(params, connection) {
+  return new Promise((resolve) => {
+    connection.setState('user', null);
+    resolve({ result: true });
+  });
+}
+
 addActionHandler('login', login);
+addActionHandler('logout', logout);
 addActionHandler('authorize', authorize);

@@ -3,7 +3,6 @@ import { API_EVENT_STATE, API_EVENT_STATE_UPDATE } from './actions';
 
 export const CONNECTED = 'CONNECTED';
 export const DISCONNECTED = 'DISCONNECTED';
-export const ADD_BREWERIES = 'ADD_BREWERIES';
 
 const ACTION_HANDLERS = {
   [CONNECTED]: state => ({
@@ -13,10 +12,6 @@ const ACTION_HANDLERS = {
   [DISCONNECTED]: state => ({
     ...state,
     connected: false,
-  }),
-  [ADD_BREWERIES]: (state, action) => ({
-    ...state,
-    breweries: action.payload,
   }),
   [API_EVENT_STATE]: (state, action) => ({
     ...state,

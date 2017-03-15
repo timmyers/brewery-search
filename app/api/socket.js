@@ -78,7 +78,7 @@ ws.addEventListener('message', (event) => {
       }
     }
   } catch (e) {
-    console.log('Got invalid JSON message');
+    console.log('Failed handling message:', e);
   }
 });
 

@@ -2,9 +2,9 @@ import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 
-import LoginHeader from './LoginHeader';
+import TitledBox from 'components/TitledBox';
+
 import LoginInput from './LoginInput';
-import Holder from './Holder';
 
 const LoginForm = (props) => {
   function handleUsernameChange(value) {
@@ -28,10 +28,7 @@ const LoginForm = (props) => {
   }
 
   return (
-    <Holder>
-      <LoginHeader>
-        Log In
-      </LoginHeader>
+    <TitledBox title="Log In">
       <LoginInput
         onChange={e => handleUsernameChange(e.target.value)}
         onFocus={e => handleUsernameFocus(e)}
@@ -50,7 +47,8 @@ const LoginForm = (props) => {
         onClick={handleSubmit}
       />
       <FlatButton label="No Account?" secondary />
-    </Holder>
+
+    </TitledBox>
   );
 };
 
