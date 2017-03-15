@@ -11,6 +11,7 @@ import BreweryListItem from './Components/BreweryListItem';
 
 const Home = (props) => {
   const breweries = props.breweries;
+  const breweriesOnMap = props.breweriesOnMap;
   const hoveredBreweryID = props.hoveredBreweryID;
 
   const onMapBoundsChange = (topLat, leftLng, bottomLat, rightLng) => {
@@ -37,7 +38,7 @@ const Home = (props) => {
         )}
       </Map>
       <VerticalFlex full scroll justifyContent="flex-start">
-        {breweries.map(brewery =>
+        {breweriesOnMap.map(brewery =>
           <BreweryListItem brewery={brewery} bold={hoveredBreweryID === brewery.breweryID} />
         )}
       </VerticalFlex>
@@ -50,20 +51,21 @@ Home.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  let breweries = state.api.state.breweries || [];
+  const breweries = state.api.state.breweries || [];
+  let breweriesOnMap = breweries;
   const bounds = state.map.bounds;
   const hoveredBreweryID = state.map.hoveredBreweryID;
 
   if (bounds) {
     const { topLat, leftLng, bottomLat, rightLng } = bounds;
 
-    breweries = breweries.filter(brewery => (
+    breweriesOnMap = breweries.filter(brewery => (
       brewery.lat < topLat && brewery.lat > bottomLat &&
       brewery.lng > leftLng && brewery.lng < rightLng
     ));
   }
 
-  return { breweries, hoveredBreweryID };
+  return { breweries, breweriesOnMap, hoveredBreweryID };
 };
 
 const mapDispatchToProps = {
