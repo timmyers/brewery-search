@@ -1,13 +1,11 @@
 /* eslint-disable */
 const chai = require("chai");
 const chaiAsPromised = require("chai-as-promised");
-
 const MongoDb = require('mongodb').Db;
+const db = require('../db');
 
 chai.use(chaiAsPromised);
-const should = chai.should();
-
-const db = require('./db');
+chai.should();
 
 describe('db', function() {
   describe('get', function() {
@@ -21,4 +19,6 @@ describe('db', function() {
       return db.get().should.eventually.be.an.instanceOf(MongoDb);
     });
   });
+
+  describe('user', require('./user.spec.js'));
 });
