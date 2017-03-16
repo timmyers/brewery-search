@@ -3,51 +3,34 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 
 import TitledBox from 'components/TitledBox';
-
-import LoginInput from './LoginInput';
+import TextInput from 'components/TextInput';
 
 const LoginForm = (props) => {
-  function handleUsernameChange(value) {
-    props.usernameChanged(value);
-  }
+  const handleUsernameChange = e => props.usernameChanged(e.target.value);
+  const handleUsernameFocus = () => props.usernameFocused();
 
-  function handleUsernameFocus() {
-    props.usernameFocused();
-  }
+  const handlePasswordChange = e => props.passwordChanged(e.target.value);
+  const handlePasswordFocus = () => props.passwordFocused();
 
-  function handlePasswordChange(value) {
-    props.passwordChanged(value);
-  }
-
-  function handlePasswordFocus() {
-    props.passwordFocused();
-  }
-
-  function handleSubmit() {
-    props.login(props.username, props.password);
-  }
+  const handleSubmit = () => props.login(props.username, props.password);
+  const handleRegister = () => props.register();
 
   return (
     <TitledBox title="Log In">
-      <LoginInput
-        onChange={e => handleUsernameChange(e.target.value)}
-        onFocus={e => handleUsernameFocus(e)}
+      <TextInput
+        onChange={handleUsernameChange}
+        onFocus={handleUsernameFocus}
         errorText={props.usernameTouched ? props.usernameError : ''}
         label="Username"
       />
-      <LoginInput
-        onChange={e => handlePasswordChange(e.target.value)}
-        onFocus={e => handlePasswordFocus(e)}
+      <TextInput
+        onChange={handlePasswordChange}
+        onFocus={handlePasswordFocus}
         errorText={props.passwordTouched ? props.passwordError : ''}
         label="Password"
       />
-      <RaisedButton
-        primary
-        label="Submit"
-        onClick={handleSubmit}
-      />
-      <FlatButton label="No Account?" secondary />
-
+      <RaisedButton primary label="Submit" onClick={handleSubmit} />
+      <FlatButton label="No Account?" secondary onTouchTap={handleRegister} />
     </TitledBox>
   );
 };

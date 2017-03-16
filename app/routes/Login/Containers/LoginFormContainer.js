@@ -2,8 +2,8 @@ import { connect } from 'react-redux';
 
 import { login } from 'api/actions';
 
-import { usernameChanged, usernameFocused, passwordChanged, passwordFocused } from '../Logic';
-import LoginForm from '../Components/LoginForm';
+import { usernameChanged, usernameFocused, passwordChanged, passwordFocused, register } from '../logic';
+import LoginForm from '../components/LoginForm';
 
 const mapDispatchToProps = {
   usernameChanged,
@@ -11,6 +11,7 @@ const mapDispatchToProps = {
   passwordChanged,
   passwordFocused,
   login,
+  register,
 };
 
 const mapStateToProps = state => ({

@@ -58,6 +58,39 @@ function login(params, connection) {
   });
 }
 
+function register(params) {
+  return new Promise((resolve, reject) => {
+    const username = params.username;
+    const email = params.email;
+    const password = params.password;
+
+    console.log('register', username, email, password);
+
+    userDB.usernameOrEmailExists(username, email, (dbError, exists) => {
+      if (dbError) {
+        reject(new Error('DB error.'));
+        return;
+      }
+
+      if (exists) {
+        const error = {};
+
+        if (exists.username) {
+          error.username = 'Username already exists';
+        }
+        if (exists.email) {
+          error.email = 'Email already exists';
+        }
+
+        resolve({ error });
+        return;
+      }
+
+      resolve({ result: true });
+    });
+  });
+}
+
 function authorize(params, connection) {
   return new Promise((resolve, reject) => {
     const token = params.token;
@@ -97,5 +130,6 @@ function logout(params, connection) {
 }
 
 addActionHandler('login', login);
+addActionHandler('register', register);
 addActionHandler('logout', logout);
 addActionHandler('authorize', authorize);

@@ -1,8 +1,6 @@
+import { push } from 'connected-react-router';
 import { API_RESPONSE_LOGIN_FAILED } from 'api/actions';
 
-// ------------------------------------
-// Constants
-// ------------------------------------
 export const USERNAME_INPUT_CHANGED = 'USERNAME_INPUT_CHANGED';
 export const USERNAME_FOCUSED = 'USERNAME_FOCUSED';
 export const PASSWORD_INPUT_CHANGED = 'PASSWORD_INPUT_CHANGED';
@@ -26,9 +24,10 @@ export const passwordFocused = () => ({
   type: PASSWORD_FOCUSED,
 });
 
-// ------------------------------------
-// Action Handlers
-// ------------------------------------
+export const register = () => (dispatch) => {
+  dispatch(push('/register'));
+};
+
 const ACTION_HANDLERS = {
   [USERNAME_INPUT_CHANGED]: (state, action) => {
     const username = action.payload;

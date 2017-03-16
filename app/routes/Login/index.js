@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import SimpleLayout from 'layouts/SimpleLayout';
 
 import LoginForm from './Containers/LoginFormContainer';
-import { reducer } from './Logic';
+import { reducer } from './logic';
 
 const Login = (props) => {
   const user = props.user;

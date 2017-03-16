@@ -1,3 +1,7 @@
+import _ from 'lodash';
+import { SubmissionError } from 'redux-form';
+import { request } from './socket';
+
 export const API_CONNECTED = 'API_CONNECTED';
 export const API_DISCONNECTED = 'API_DISCONNECTED';
 
@@ -36,3 +40,12 @@ export const updateState = updates => ({
   type: API_EVENT_STATE_UPDATE,
   payload: updates,
 });
+
+export const register = fields => (
+  request('register', fields)
+    .then((registerResult) => {
+      if (_.has(registerResult, 'error')) {
+        throw new SubmissionError(registerResult.error);
+      }
+    })
+);

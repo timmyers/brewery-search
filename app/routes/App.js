@@ -12,6 +12,7 @@ import { orange700, orange900, brown600 } from 'material-ui/styles/colors';
 import Home from 'routes/Home';
 import Login from 'routes/Login';
 import Profile from 'routes/Profile';
+import Register from 'routes/Register';
 
 import { history } from '../store/createStore';
 
@@ -35,6 +36,7 @@ const App = (props) => {
             <Route exact path="/" component={Home} />
             <Route path="/login" component={Login} />
             <Route path="/profile" component={Profile} />
+            <Route path="/register" component={Register} />
           </VerticalFlex>
         </MuiThemeProvider>
       </ConnectedRouter>

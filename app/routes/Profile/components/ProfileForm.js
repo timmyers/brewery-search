@@ -7,13 +7,8 @@ import TitledBox from 'components/TitledBox';
 class ProfileForm extends React.Component {
   state = { open: false };
 
-  handleOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleClose = () => {
-    this.setState({ open: false });
-  };
+  handleOpen = () => this.setState({ open: true });
+  handleClose = () => this.setState({ open: false });
 
   handleLogOut = () => {
     this.setState({ open: false });

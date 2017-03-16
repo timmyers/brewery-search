@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import TextField from 'material-ui/TextField';
 
-const LoginInput = props => (
+const TextInput = props => (
   <TextField
     floatingLabelText={props.label}
     errorText={props.touched && props.error}
@@ -9,10 +9,10 @@ const LoginInput = props => (
   />
 );
 
-LoginInput.propTypes = {
+TextInput.propTypes = {
   label: PropTypes.string.isRequired,
   touched: PropTypes.bool.isRequired,
   error: PropTypes.string.isRequired,
 };
 
-export default LoginInput;
+export default TextInput;

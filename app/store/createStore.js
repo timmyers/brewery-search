@@ -1,5 +1,6 @@
 import { applyMiddleware, compose, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
+import thunk from 'redux-thunk';
 import createBrowserHistory from 'history/createBrowserHistory';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { APISaga } from 'api';
@@ -15,7 +16,7 @@ export default (initialState = {}) => {
   // ======================================================
   // Middleware Configuration
   // ======================================================
-  const middleware = [sagaMiddleware, routerMiddleware(history)];
+  const middleware = [sagaMiddleware, thunk, routerMiddleware(history)];
 
   // ======================================================
   // Store Enhancers

@@ -1,5 +1,5 @@
-const db = require('../db');
 const debug = require('debug')('app:api:db:user');
+const db = require('../db');
 
 let collection;
 
@@ -16,6 +16,38 @@ function usernameExists(username, callback) {
     }
 
     callback(null, count > 0);
+  });
+}
+
+function usernameOrEmailExists(username, email, callback) {
+  const matchQuery = { $or: [{ username }, { email }] };
+  const fields = { fields: { userID: 1, username: 1, email: 1 } };
+  collection.find(matchQuery, fields).toArray((err, users) => {
+    if (err) {
+      callback(err);
+    }
+
+    let exists = null;
+
+    users.forEach((user) => {
+      if (user.username === username) {
+        if (!exists) {
+          exists = { username: true };
+        } else {
+          exists.username = true;
+        }
+      }
+      if (user.email === email) {
+        if (!exists) {
+          exists = { email: true };
+        } else {
+          exists.email = true;
+        }
+      }
+    });
+
+    debug(exists);
+    callback(null, exists);
   });
 }
 
@@ -37,4 +69,4 @@ function findByUserID(userID, callback) {
   });
 }
 
-module.exports = { usernameExists, find, findByUserID };
+module.exports = { usernameExists, usernameOrEmailExists, find, findByUserID };
