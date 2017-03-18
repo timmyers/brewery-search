@@ -14,7 +14,7 @@ module.exports = function() {
   it('should have a function called find', function() {
     user.find.should.be.a('function');
   });
-  it('should have a function called findByUserID', function() {
-    user.findByUserID.should.be.a('function');
+  it('should have a function called findByID', function() {
+    user.findByID.should.be.a('function');
   });
 };

@@ -46,10 +46,11 @@ function login(params, connection) {
             return;
           }
 
-          const userID = user.userID;
+          const userID = user._id;
           const token = jwt.sign({ userID }, JWT_SECRET);
           debug(`generated jwt: ${token}`);
 
+          connection.userState.setMongoID(userID);
           connection.setState('user', { username });
           resolve({ result: { token } });
         });
@@ -58,13 +59,13 @@ function login(params, connection) {
   });
 }
 
-function register(params) {
+function register(params, connection) {
   return new Promise((resolve, reject) => {
     const username = params.username;
     const email = params.email;
     const password = params.password;
 
-    console.log('register', username, email, password);
+    debug('register', username, email, password);
 
     userDB.usernameOrEmailExists(username, email, (dbError, exists) => {
       if (dbError) {
@@ -86,13 +87,33 @@ function register(params) {
         return;
       }
 
-      resolve({ result: true });
+      const saltRounds = 12;
+      bcrypt.hash(password, saltRounds, (bcryptErr, encryptedPassword) => {
+        if (bcryptErr) {
+          reject(bcryptErr);
+          return;
+        }
+
+        userDB.add({ username, email, password: encryptedPassword }, (err, userID) => {
+          if (err) {
+            reject(err);
+            return;
+          }
+
+          const token = jwt.sign({ userID }, JWT_SECRET);
+          debug(`generated jwt: ${token}`);
+
+          connection.setState('user', { username });
+
+          resolve({ result: { token } });
+        });
+      });
     });
   });
 }
 
 function authorize(params, connection) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const token = params.token;
     debug('received authorize token: ', token);
 
@@ -105,9 +126,12 @@ function authorize(params, connection) {
 
       const userID = decoded.userID;
 
-      userDB.findByUserID(userID, (findUserErr, user) => {
+      userDB.findByID(userID, (findUserErr, user) => {
         if (findUserErr) {
-          reject({ error: 'Couldn\'t authorize.' });
+          resolve({ error: 'Couldn\'t authorize.' });
+          return;
+        } else if (!user) {
+          resolve({ error: 'User not found for token.' });
           return;
         }
 

@@ -1,4 +1,5 @@
 const debug = require('debug')('app:api:db:user');
+const ObjectID = require('mongodb').ObjectID;
 const db = require('../db');
 
 let collection;
@@ -52,7 +53,7 @@ function usernameOrEmailExists(username, email, callback) {
 }
 
 function find(username, callback) {
-  collection.findOne({ username }, { fields: { password: 1, userID: 1 } }, (err, user) => {
+  collection.findOne({ username }, { fields: { _id: 1, password: 1, userID: 1 } }, (err, user) => {
     if (err) {
       return callback(err);
     }
@@ -60,8 +61,14 @@ function find(username, callback) {
   });
 }
 
-function findByUserID(userID, callback) {
-  collection.findOne({ userID }, { fields: { password: 0 } }, (err, user) => {
+function findByID(id, callback) {
+  if (!ObjectID.isValid(id)) {
+    callback(new Error('invalid object ID'));
+    return;
+  }
+
+  const _id = new ObjectID(id);
+  collection.findOne({ _id }, { fields: { password: 0 } }, (err, user) => {
     if (err) {
       return callback(err);
     }
@@ -69,4 +76,19 @@ function findByUserID(userID, callback) {
   });
 }
 
-module.exports = { usernameExists, usernameOrEmailExists, find, findByUserID };
+function add(user, callback) {
+  const { username, password, email } = user;
+
+  collection.insertOne({ username, password, email }, (err, result) => {
+    debug(result);
+    if (err) {
+      callback(err);
+      return;
+    }
+
+    const userID = result.insertedId;
+    callback(null, userID);
+  });
+}
+
+module.exports = { usernameExists, usernameOrEmailExists, find, findByID, add };

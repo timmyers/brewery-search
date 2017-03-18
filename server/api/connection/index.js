@@ -5,6 +5,7 @@ const has = require('has');
 
 const { actionHandlers } = require('./action');
 const { getBreweries } = require('../db').brewery;
+const UserState = require('./user/UserState');
 
 require('./user');
 
@@ -13,6 +14,7 @@ class APIConnection {
     debug('ws connection made');
 
     this.ws = ws;
+    this.userState = new UserState();
 
     this.messageNum = 0;
     this.lastAck = -1;

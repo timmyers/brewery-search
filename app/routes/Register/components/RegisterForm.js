@@ -1,5 +1,6 @@
 import React from 'react';
 import { reduxForm, Field } from 'redux-form';
+import { push } from 'connected-react-router';
 import RaisedButton from 'material-ui/RaisedButton';
 import CircularProgress from 'material-ui/CircularProgress';
 import FormTextField from 'components/FormTextField';
@@ -52,11 +53,9 @@ const RegisterFormRedux = reduxForm({
   form: 'register',
   validate,
   onSubmit: fields => register(fields),
-  // onSubmitFail: (errors, dispatch, submitError) => {
-    //if (submitError instanceof Error) {
-      // alert(submitError.message);
-    //}
-  // },
+  onSubmitSuccess: (result, dispatch) => {
+    dispatch(push('/'));
+  },
 })(RegisterForm);
 
 export default RegisterFormRedux;

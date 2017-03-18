@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { SubmissionError } from 'redux-form';
+import store from 'store';
 import { request } from './socket';
 
 export const API_CONNECTED = 'API_CONNECTED';
@@ -46,6 +47,12 @@ export const register = fields => (
     .then((registerResult) => {
       if (_.has(registerResult, 'error')) {
         throw new SubmissionError(registerResult.error);
+      } else if (_.has(registerResult, 'result')) {
+        if (_.has(registerResult.result, 'token')) {
+          const token = registerResult.result.token;
+          console.log('received login token: ', token);
+          store.set('loginToken', token);
+        }
       }
     })
 );
