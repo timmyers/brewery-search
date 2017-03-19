@@ -16,10 +16,12 @@ addons:
       - g++-4.8
 
 services: mongodb
+# 0bd26aa5-c225-464c-88aa-00ee3bdddcb0
 
 script:
   - npm run lint
-  - npm run test
+  - npm run coverage
+  - ./node_modules/codecov/bin/codecov
   - npm run deploy:prod
 
 deploy:

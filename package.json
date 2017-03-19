@@ -47,6 +47,13 @@
         "NODE_ENV": "test",
         "DEBUG": "test:*,app:*"
       }
+    },
+    "coverage": {
+      "command": "node test && ./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- --reporter lcovonly -R spec server/**/*.test.js",
+      "env": {
+        "NODE_ENV": "test",
+        "DEBUG": "test:*,app:*"
+      }
     }
   },
   "dependencies": {
@@ -108,6 +115,7 @@
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
     "cheerio": "^0.20.0",
+    "codecov": "^2.1.0",
     "dockerode": "^2.3.2",
     "eslint": "^3.17.0",
     "eslint-config-airbnb": "^14.1.0",
@@ -116,6 +124,7 @@
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-mocha": "^4.8.0",
     "eslint-plugin-react": "^6.10.0",
+    "istanbul": "^0.4.5",
     "mocha": "^3.2.0",
     "sinon": "^2.0.0-pre.6"
   },
@@ -135,6 +144,7 @@
     "lint": "./node_modules/.bin/eslint server app",
     "lint:fix": "npm run lint -- --fix",
     "start": "better-npm-run start",
-    "test": "better-npm-run test"
+    "test": "better-npm-run test",
+    "coverage": "better-npm-run coverage"
   }
 }
