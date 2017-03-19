@@ -42,7 +42,7 @@
       }
     },
     "test": {
-      "command": "node test && ./node_modules/mocha/bin/mocha server/**/*.spec.js",
+      "command": "node test && ./node_modules/mocha/bin/mocha server/**/*.test.js",
       "env": {
         "NODE_ENV": "test",
         "DEBUG": "test:*,app:*"

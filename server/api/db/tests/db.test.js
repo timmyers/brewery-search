@@ -20,5 +20,5 @@ describe('db', function() {
     });
   });
 
-  describe('user', require('./user.spec.js'));
+  describe('user', require('./user.test.js'));
 });

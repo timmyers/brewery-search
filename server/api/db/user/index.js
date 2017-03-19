@@ -10,14 +10,9 @@ db.get()
     collection = dbConn.collection('User');
   });
 
-function usernameExists(username, callback) {
-  collection.count({ username }, { limit: 1 }, (err, count) => {
-    if (err) {
-      callback(err);
-    }
-
-    callback(null, count > 0);
-  });
+function usernameExists(username) {
+  return collection.count({ username }, { limit: 1 })
+    .then(count => count > 0);
 }
 
 function usernameOrEmailExists(username, email, callback) {
