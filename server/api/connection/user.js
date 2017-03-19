@@ -7,6 +7,7 @@ const { addActionHandler } = require('./action');
 const db = require('../db');
 
 const userDB = db.user;
+const breweryVisitDB = db.breweryVisit;
 
 const JWT_SECRET = 'shhfdsfdaskfda;fjk;a';
 
@@ -103,6 +104,7 @@ function register(params, connection) {
           const token = jwt.sign({ userID }, JWT_SECRET);
           debug(`generated jwt: ${token}`);
 
+          connection.userState.setMongoID(userID);
           connection.setState('user', { username });
 
           resolve({ result: { token } });
@@ -137,6 +139,13 @@ function authorize(params, connection) {
 
         debug('auth token was for user: ', user);
 
+        connection.userState.setMongoID(userID);
+
+        breweryVisitDB.getVisited(userID, (visitedErr, visitedDocs) => {
+          const visited = visitedDocs.map(doc => doc.brewery);
+          connection.setState('visited', visited);
+        });
+
         const username = user.username;
         connection.setState('user', { username });
 
@@ -153,7 +162,21 @@ function logout(params, connection) {
   });
 }
 
+function visitBrewery(params, connection) {
+  return new Promise((resolve) => {
+    const breweryID = params.brewery;
+    const visited = params.visited;
+    const userID = connection.userState.mongoID;
+
+    debug('visitBrewery', breweryID, userID, visited);
+    breweryVisitDB.setVisit(userID, breweryID, visited, () => {
+      resolve({ result: true });
+    });
+  });
+}
+
 addActionHandler('login', login);
 addActionHandler('register', register);
 addActionHandler('logout', logout);
 addActionHandler('authorize', authorize);
+addActionHandler('visitBrewery', visitBrewery);

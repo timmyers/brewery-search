@@ -65,6 +65,13 @@ const mapStateToProps = (state) => {
     ));
   }
 
+  const visited = state.api.state.visited || [];
+  breweriesOnMap = breweriesOnMap.map((breweryIn) => {
+    const brewery = breweryIn;
+    brewery.visited = visited.indexOf(brewery.breweryID) !== -1;
+    return brewery;
+  });
+
   return { breweries, breweriesOnMap, hoveredBreweryID };
 };
 

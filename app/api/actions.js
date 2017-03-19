@@ -56,3 +56,10 @@ export const register = fields => (
       }
     })
 );
+
+export const visitBrewery = (brewery, visited) => (
+  request('visitBrewery', { brewery, visited })
+    .then((visitedResult) => {
+      console.log(visitedResult);
+    })
+);
