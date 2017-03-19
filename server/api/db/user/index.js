@@ -15,36 +15,34 @@ function usernameExists(username) {
     .then(count => count > 0);
 }
 
-function usernameOrEmailExists(username, email, callback) {
+function usernameOrEmailExists(username, email) {
   const matchQuery = { $or: [{ username }, { email }] };
   const fields = { fields: { userID: 1, username: 1, email: 1 } };
-  collection.find(matchQuery, fields).toArray((err, users) => {
-    if (err) {
-      callback(err);
-    }
 
-    let exists = null;
+  return collection.find(matchQuery, fields).toArray()
+    .then((users) => {
+      let exists = null;
 
-    users.forEach((user) => {
-      if (user.username === username) {
-        if (!exists) {
-          exists = { username: true };
-        } else {
-          exists.username = true;
+      users.forEach((user) => {
+        if (user.username === username) {
+          if (!exists) {
+            exists = { username: true };
+          } else {
+            exists.username = true;
+          }
         }
-      }
-      if (user.email === email) {
-        if (!exists) {
-          exists = { email: true };
-        } else {
-          exists.email = true;
+        if (user.email === email) {
+          if (!exists) {
+            exists = { email: true };
+          } else {
+            exists.email = true;
+          }
         }
-      }
+      });
+
+      debug(exists);
+      return exists;
     });
-
-    debug(exists);
-    callback(null, exists);
-  });
 }
 
 function find(username, callback) {

@@ -33,28 +33,65 @@ module.exports = function() {
     user.findByID.should.be.a('function');
   });
 
-  // Test usernameExists
   describe('usernameExists', function() {
     const goodUsername = 'timbo';
     const badUsername = 'fido';
 
+    // Add a valid username before starting
     before(async function() {
       const user = {username: goodUsername, password: 'hunter6', email: 'hello@aol.com'};
       await collection.insertOne(user);
     });
+    // Delete all users afterwards
     after(async function() {
       await collection.deleteMany({});
     });
 
     it('should return a promise', function() {
-      const result = user.usernameExists(goodUsername);
-      result.should.be.a('Promise');
+      user.usernameExists(goodUsername).should.be.a('Promise');
     });
     it('should return true if the username exists', function() {
       return user.usernameExists(goodUsername).should.eventually.be.true;
     });
     it('should return false if the username doesn\'t exists', function() {
       return user.usernameExists(badUsername).should.eventually.be.false;
+    });
+  });
+
+
+  describe('usernameOrEmailExists', function() {
+    const usedUsername = 'timbo';
+    const usedEmail = 'hello@aol.com'
+    const unusedUsername = 'fido';
+    const unusedEmail = 'tom@myspace.com';
+
+    // Add a valid user before starting
+    before(async function() {
+      const user = {username: usedUsername, password: 'hunter6', email: usedEmail};
+      await collection.insertOne(user);
+    });
+
+    it('should return a promise', function() {
+      user.usernameOrEmailExists(usedUsername).should.be.a('Promise');
+    });
+    it('should return if just the username exists', function() {
+      return user.usernameOrEmailExists(usedUsername, unusedEmail).should.eventually.deep.equal({
+        username: true,
+      });
+    });
+    it('should return if just the email exists', function() {
+      return user.usernameOrEmailExists(unusedUsername, usedEmail).should.eventually.deep.equal({
+        email: true
+      });
+    });
+    it('should return both exist if they do', function() {
+      return user.usernameOrEmailExists(usedUsername, usedEmail).should.eventually.deep.equal({
+        username: true,
+        email: true
+      });
+    });
+    it('should return neither exist if they don\'t', function() {
+      return user.usernameOrEmailExists(unusedUsername, unusedEmail).should.eventually.equal(null);
     });
   });
 };
