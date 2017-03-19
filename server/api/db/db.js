@@ -7,6 +7,7 @@ const config = require('../../../config');
 let url = 'mongodb://heroku_pn4vdj5h:ic2a038up7pjedvhq3s33eqjjn@ds155428.mlab.com:55428/heroku_pn4vdj5h';
 
 if (config.env === 'test') {
+  debug('using local DB');
   url = 'mongodb://localhost:27017';
 }
 
