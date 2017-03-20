@@ -68,49 +68,49 @@ function register(params, connection) {
 
     debug('register', username, email, password);
 
-    userDB.usernameOrEmailExists(username, email, (dbError, exists) => {
-      if (dbError) {
-        reject(new Error('DB error.'));
-        return;
-      }
+    userDB.usernameOrEmailExists(username, email)
+      .then((exists) => {
+        if (exists) {
+          const error = {};
 
-      if (exists) {
-        const error = {};
+          if (exists.username) {
+            error.username = 'Username already exists';
+          }
+          if (exists.email) {
+            error.email = 'Email already exists';
+          }
 
-        if (exists.username) {
-          error.username = 'Username already exists';
-        }
-        if (exists.email) {
-          error.email = 'Email already exists';
-        }
-
-        resolve({ error });
-        return;
-      }
-
-      const saltRounds = 12;
-      bcrypt.hash(password, saltRounds, (bcryptErr, encryptedPassword) => {
-        if (bcryptErr) {
-          reject(bcryptErr);
+          resolve({ error });
           return;
         }
 
-        userDB.add({ username, email, password: encryptedPassword }, (err, userID) => {
-          if (err) {
-            reject(err);
+        const saltRounds = 12;
+        bcrypt.hash(password, saltRounds, (bcryptErr, encryptedPassword) => {
+          if (bcryptErr) {
+            reject(bcryptErr);
             return;
           }
 
-          const token = jwt.sign({ userID }, JWT_SECRET);
-          debug(`generated jwt: ${token}`);
+          debug('adding new user', username, email);
+          userDB.add({ username, email, password: encryptedPassword }, (err, userID) => {
+            if (err) {
+              reject(err);
+              return;
+            }
 
-          connection.userState.setMongoID(userID);
-          connection.setState('user', { username });
+            const token = jwt.sign({ userID }, JWT_SECRET);
+            debug(`generated jwt: ${token}`);
 
-          resolve({ result: { token } });
+            connection.userState.setMongoID(userID);
+            connection.setState('user', { username });
+
+            resolve({ result: { token } });
+          });
         });
+      })
+      .catch(() => {
+        reject(new Error('DB error.'));
       });
-    });
   });
 }
 

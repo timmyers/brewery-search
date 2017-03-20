@@ -16,6 +16,7 @@ function usernameExists(username) {
 }
 
 function usernameOrEmailExists(username, email) {
+  debug('usernameOrEmailExists', username, email);
   const matchQuery = { $or: [{ username }, { email }] };
   const fields = { fields: { userID: 1, username: 1, email: 1 } };
 
@@ -40,7 +41,6 @@ function usernameOrEmailExists(username, email) {
         }
       });
 
-      debug(exists);
       return exists;
     });
 }
@@ -72,10 +72,10 @@ function findByID(id, callback) {
 function add(user, callback) {
   const { username, password, email } = user;
 
-  collection.insertOne({ username, password, email }, (err, result) => {
-    debug(result);
-    if (err) {
-      callback(err);
+  collection.insertOne({ username, password, email }, (insertErr, result) => {
+    if (insertErr) {
+      debug('add insertOne error', insertErr);
+      callback(insertErr);
       return;
     }
 
