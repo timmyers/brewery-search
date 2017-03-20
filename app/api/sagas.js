@@ -55,7 +55,12 @@ function* authorize() {
     if (loginToken) {
       const authInfo = { token: loginToken };
       const authorizeResult = yield request('authorize', authInfo);
-      console.log('authorize successful: ', authorizeResult);
+      if (_.has(authorizeResult, 'error')) {
+        console.log('authorize failed: ', authorizeResult.error);
+        store.remove('loginToken');
+      } else {
+        console.log('authorize successful: ', authorizeResult);
+      }
     }
   } catch (e) {
     // Ignore
