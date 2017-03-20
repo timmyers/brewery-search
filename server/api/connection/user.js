@@ -85,27 +85,22 @@ function register(params, connection) {
         }
 
         const saltRounds = 12;
-        bcrypt.hash(password, saltRounds, (bcryptErr, encryptedPassword) => {
+        bcrypt.hash(password, saltRounds, async (bcryptErr, encryptedPassword) => {
           if (bcryptErr) {
             reject(bcryptErr);
             return;
           }
 
           debug('adding new user', username, email);
-          userDB.add({ username, email, password: encryptedPassword }, (err, userID) => {
-            if (err) {
-              reject(err);
-              return;
-            }
+          const userID = await userDB.add({ username, email, password: encryptedPassword });
 
-            const token = jwt.sign({ userID }, JWT_SECRET);
-            debug(`generated jwt: ${token}`);
+          const token = jwt.sign({ userID }, JWT_SECRET);
+          debug(`generated jwt: ${token}`);
 
-            connection.userState.setMongoID(userID);
-            connection.setState('user', { username });
+          connection.userState.setMongoID(userID);
+          connection.setState('user', { username });
 
-            resolve({ result: { token } });
-          });
+          resolve({ result: { token } });
         });
       })
       .catch(() => {

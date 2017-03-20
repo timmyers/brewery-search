@@ -69,19 +69,11 @@ function findByID(id, callback) {
   });
 }
 
-function add(user, callback) {
+function add(user) {
   const { username, password, email } = user;
 
-  collection.insertOne({ username, password, email }, (insertErr, result) => {
-    if (insertErr) {
-      debug('add insertOne error', insertErr);
-      callback(insertErr);
-      return;
-    }
-
-    const userID = result.insertedId;
-    callback(null, userID);
-  });
+  return collection.insertOne({ username, password, email })
+    .then(result => result.insertedId);
 }
 
 module.exports = { usernameExists, usernameOrEmailExists, find, findByID, add };

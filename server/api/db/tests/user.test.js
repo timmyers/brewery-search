@@ -1,8 +1,9 @@
 /* eslint-disable */
 const debug = require('debug')('test:db:user');
+const ObjectID = require('mongodb').ObjectID;
 const chai = require("chai");
 const chaiAsPromised = require("chai-as-promised");
-const user = require('../user');
+const userDB = require('../user');
 const db = require('../db')
 
 chai.use(chaiAsPromised);
@@ -21,16 +22,16 @@ module.exports = function() {
   });
 
   it('should have a function called usernameExists', function() {
-    user.usernameExists.should.be.a('function');
+    userDB.usernameExists.should.be.a('function');
   });
   it('should have a function called usernameOrEmailExists', function() {
-    user.usernameOrEmailExists.should.be.a('function');
+    userDB.usernameOrEmailExists.should.be.a('function');
   });
   it('should have a function called find', function() {
-    user.find.should.be.a('function');
+    userDB.find.should.be.a('function');
   });
   it('should have a function called findByID', function() {
-    user.findByID.should.be.a('function');
+    userDB.findByID.should.be.a('function');
   });
 
   describe('usernameExists', function() {
@@ -48,13 +49,13 @@ module.exports = function() {
     });
 
     it('should return a promise', function() {
-      user.usernameExists(goodUsername).should.be.a('Promise');
+      userDB.usernameExists(goodUsername).should.be.a('Promise');
     });
     it('should return true if the username exists', function() {
-      return user.usernameExists(goodUsername).should.eventually.be.true;
+      return userDB.usernameExists(goodUsername).should.eventually.be.true;
     });
     it('should return false if the username doesn\'t exists', function() {
-      return user.usernameExists(badUsername).should.eventually.be.false;
+      return userDB.usernameExists(badUsername).should.eventually.be.false;
     });
   });
 
@@ -72,26 +73,47 @@ module.exports = function() {
     });
 
     it('should return a promise', function() {
-      user.usernameOrEmailExists(usedUsername).should.be.a('Promise');
+      userDB.usernameOrEmailExists(usedUsername).should.be.a('Promise');
     });
     it('should return if just the username exists', function() {
-      return user.usernameOrEmailExists(usedUsername, unusedEmail).should.eventually.deep.equal({
+      return userDB.usernameOrEmailExists(usedUsername, unusedEmail).should.eventually.deep.equal({
         username: true,
       });
     });
     it('should return if just the email exists', function() {
-      return user.usernameOrEmailExists(unusedUsername, usedEmail).should.eventually.deep.equal({
+      return userDB.usernameOrEmailExists(unusedUsername, usedEmail).should.eventually.deep.equal({
         email: true
       });
     });
     it('should return both exist if they do', function() {
-      return user.usernameOrEmailExists(usedUsername, usedEmail).should.eventually.deep.equal({
+      return userDB.usernameOrEmailExists(usedUsername, usedEmail).should.eventually.deep.equal({
         username: true,
         email: true
       });
     });
     it('should return neither exist if they don\'t', function() {
-      return user.usernameOrEmailExists(unusedUsername, unusedEmail).should.eventually.equal(null);
+      return userDB.usernameOrEmailExists(unusedUsername, unusedEmail).should.eventually.equal(null);
+    });
+  });
+
+  describe('add', function() {
+    const username = 'timbo';
+    const email = 'hello@aol.com'
+    const password = 'hunter6';
+    const user = { username, email, password };
+
+    // Delete all users afterwards
+    afterEach(async function() {
+      await collection.deleteMany({});
+    });
+
+    it('should return a promise', function() {
+      userDB.add(user).should.be.a('Promise');
+    });
+
+    it('should successfully add a user and return the ID', async function() {
+      const userID = await userDB.add(user);
+      ObjectID.isValid(userID).should.be.true;
     });
   });
 };
