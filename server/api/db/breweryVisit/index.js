@@ -10,51 +10,27 @@ db.get()
     collection = dbConn.collection('BreweryVisit');
   });
 
-function setVisit(userID, brewery, visited, callback) {
-  if (!ObjectID.isValid(userID)) {
-    callback(new Error('invalid object ID'));
-    return;
-  }
-
+function setVisited(userID, brewery, visited = true) {
   const user = new ObjectID(userID);
 
   const filter = { user, brewery };
-  const query = { $setOnInsert: { user, brewery }, $set: { visited } };
-  collection.updateOne(filter, query, { upsert: true }, (err, result) => {
-    if (err) {
-      debug(err);
-      callback(err);
-      return;
-    }
-    debug(result);
 
-    if (result.insertedCount !== 1) {
-      debug('didn\'t update');
-      // callback(new Error('failed to insert'));
-      // return;
-    }
+  if (visited) {
+    const query = { $setOnInsert: { user, brewery } };
 
-    // const visitID = result.insertedId;
-    callback(null);
-  });
-}
-
-function getVisited(userID, callback) {
-  if (!ObjectID.isValid(userID)) {
-    callback(new Error('invalid object ID'));
-    return;
+    return collection.updateOne(filter, query, { upsert: true })
+      .then(() => null);
   }
 
-  const user = new ObjectID(userID);
-  const filter = { user, visited: true };
-
-  collection.find(filter).toArray((err, visits) => {
-    if (err) {
-      callback(err);
-      return;
-    }
-    callback(null, visits);
-  });
+  return collection.deleteOne(filter)
+    .then(() => null);
 }
 
-module.exports = { setVisit, getVisited };
+function getVisited(userID) {
+  const user = new ObjectID(userID);
+
+  const filter = { user };
+  return collection.find(filter).toArray();
+}
+
+module.exports = { setVisited, getVisited };

@@ -169,6 +169,10 @@ class APIConnection {
     this.state[key] = state;
   }
 
+  getState(key) {
+    return this.state[key];
+  }
+
   sendFullState() {
     this.sendMessage({
       action: 'state',

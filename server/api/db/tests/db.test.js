@@ -21,4 +21,5 @@ describe('db', function() {
   });
 
   describe('user', require('./user.test.js'));
+  describe('breweryVisit', require('./breweryVisit.test.js'));
 });

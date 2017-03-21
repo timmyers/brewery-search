@@ -1,4 +1,5 @@
 const Promise = require('bluebird');
+const _ = require('lodash');
 const debug = require('debug')('app:api:connection:user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -52,6 +53,14 @@ function login(params, connection) {
           debug(`generated jwt: ${token}`);
 
           connection.userState.setMongoID(userID);
+
+          breweryVisitDB.getVisited(userID)
+            .then((visitedDocs) => {
+              const visited = visitedDocs.map(doc => doc.brewery);
+              debug('visited', visited);
+              connection.setState('visited', visited);
+            });
+
           connection.setState('user', { username });
           resolve({ result: { token } });
         });
@@ -136,10 +145,12 @@ function authorize(params, connection) {
 
         connection.userState.setMongoID(userID);
 
-        breweryVisitDB.getVisited(userID, (visitedErr, visitedDocs) => {
-          const visited = visitedDocs.map(doc => doc.brewery);
-          connection.setState('visited', visited);
-        });
+        breweryVisitDB.getVisited(userID)
+          .then((visitedDocs) => {
+            const visited = visitedDocs.map(doc => doc.brewery);
+            debug('visited', visited);
+            connection.setState('visited', visited);
+          });
 
         const username = user.username;
         connection.setState('user', { username });
@@ -158,16 +169,23 @@ function logout(params, connection) {
 }
 
 function visitBrewery(params, connection) {
-  return new Promise((resolve) => {
-    const breweryID = params.brewery;
-    const visited = params.visited;
-    const userID = connection.userState.mongoID;
+  const breweryID = params.brewery;
+  const visited = params.visited;
+  const userID = connection.userState.mongoID;
 
-    debug('visitBrewery', breweryID, userID, visited);
-    breweryVisitDB.setVisit(userID, breweryID, visited, () => {
-      resolve({ result: true });
+  debug('visitBrewery', breweryID, userID, visited);
+
+  return breweryVisitDB.setVisited(userID, breweryID, visited)
+    .then(() => {
+      let visitedState = connection.getState('visited');
+      if (visited) {
+        visitedState.push(breweryID);
+      } else {
+        visitedState = _.difference(visitedState, [breweryID]);
+      }
+      connection.setState('visited', visitedState);
+      return { result: true };
     });
-  });
 }
 
 addActionHandler('login', login);

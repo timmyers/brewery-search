@@ -27,6 +27,7 @@ const LoginForm = (props) => {
         onChange={handlePasswordChange}
         onFocus={handlePasswordFocus}
         errorText={props.passwordTouched ? props.passwordError : ''}
+        type="password"
         label="Password"
       />
       <RaisedButton primary label="Submit" onClick={handleSubmit} />
