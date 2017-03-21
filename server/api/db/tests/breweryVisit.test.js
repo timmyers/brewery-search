@@ -1,7 +1,7 @@
 /* eslint-disable */
 const debug = require('debug')('test:db:user');
 const ObjectID = require('mongodb').ObjectID;
-const chai = require("chai");
+const chai = require('chai');
 const chaiAsPromised = require("chai-as-promised");
 const visitDB = require('../breweryVisit');
 const db = require('../db')
