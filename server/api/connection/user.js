@@ -55,9 +55,7 @@ function login(params, connection) {
           connection.userState.setMongoID(userID);
 
           breweryVisitDB.getVisited(userID)
-            .then((visitedDocs) => {
-              const visited = visitedDocs.map(doc => doc.brewery);
-              debug('visited', visited);
+            .then((visited) => {
               connection.setState('visited', visited);
             });
 
@@ -146,9 +144,7 @@ function authorize(params, connection) {
         connection.userState.setMongoID(userID);
 
         breweryVisitDB.getVisited(userID)
-          .then((visitedDocs) => {
-            const visited = visitedDocs.map(doc => doc.brewery);
-            debug('visited', visited);
+          .then((visited) => {
             connection.setState('visited', visited);
           });
 

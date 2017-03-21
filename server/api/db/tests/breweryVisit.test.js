@@ -25,10 +25,14 @@ module.exports = function() {
     visitDB.setVisited.should.be.a('function');
   });
 
+  it('should have a function called getVisited', function() {
+    visitDB.getVisited.should.be.a('function');
+  });
+
   describe('setVisited', function() {
     const invalidUserID = '1234';
     const userID = new ObjectID(1);
-    const breweryID = new ObjectID(1);
+    const breweryID = 1;
 
     // Delete all docs afterwards
     after(async function() {
@@ -52,6 +56,29 @@ module.exports = function() {
         return collection.count(query).should.eventually.equal(0);
       });
     });
+  });
 
+  describe('setVisited', function() {
+    const userID = new ObjectID(1);
+    const breweryID1 = 1;
+    const breweryID2 = 2;
+
+    // Sets up a few entries before
+    before(async function() {
+      await collection.insertOne({ user: userID, brewery: breweryID1 });
+      await collection.insertOne({ user: userID, brewery: breweryID2 });
+    });
+
+    // Delete all docs afterwards
+    after(async function() {
+      await collection.deleteMany({});
+    });
+
+    it('should return all visited breweries', async function() {
+      return visitDB.getVisited(userID).should.eventually.deep.equal([
+        breweryID1,
+        breweryID2,
+      ]);
+    });
   });
 };

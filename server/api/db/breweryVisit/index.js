@@ -30,7 +30,8 @@ function getVisited(userID) {
   const user = new ObjectID(userID);
 
   const filter = { user };
-  return collection.find(filter).toArray();
+  return collection.find(filter).toArray()
+    .then(visitedDocs => visitedDocs.map(doc => doc.brewery));
 }
 
 module.exports = { setVisited, getVisited };
