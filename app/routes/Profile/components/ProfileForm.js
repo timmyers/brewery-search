@@ -1,5 +1,6 @@
 import React from 'react';
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 
 import TitledBox from 'components/TitledBox';
@@ -36,7 +37,7 @@ class ProfileForm extends React.Component {
             { `You have visited ${numVisitedBreweries} of ${numBreweries} breweries!`}
           </span>
         }
-        <FlatButton onTouchTap={this.handleOpen}>Log Out</FlatButton>
+        <RaisedButton primary onTouchTap={this.handleOpen}>Log Out</RaisedButton>
         <Dialog
           title="Log Out"
           actions={actions}

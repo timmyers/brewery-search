@@ -1,39 +1,49 @@
 import React from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
+import { connect } from 'react-redux';
+import { reduxForm, Field } from 'redux-form';
+import { push } from 'connected-react-router';
 import FlatButton from 'material-ui/FlatButton';
-
+import RaisedButton from 'material-ui/RaisedButton';
+import CircularProgress from 'material-ui/CircularProgress';
+import FormTextField from 'components/FormTextField';
 import TitledBox from 'components/TitledBox';
-import TextInput from 'components/TextInput';
+import { login } from 'api/actions';
+
+const validate = (values) => {
+  const errors = {};
+
+  if (!values.username) errors.username = 'Username is required';
+  if (!values.password) errors.password = 'Password is required';
+
+  return errors;
+};
 
 const LoginForm = (props) => {
-  const handleUsernameChange = e => props.usernameChanged(e.target.value);
-  const handleUsernameFocus = () => props.usernameFocused();
-
-  const handlePasswordChange = e => props.passwordChanged(e.target.value);
-  const handlePasswordFocus = () => props.passwordFocused();
-
-  const handleSubmit = () => props.login(props.username, props.password);
-  const handleRegister = () => props.register();
+  const { handleSubmit, submitting, handleRegister } = props;
 
   return (
-    <TitledBox title="Log In">
-      <TextInput
-        onChange={handleUsernameChange}
-        onFocus={handleUsernameFocus}
-        errorText={props.usernameTouched ? props.usernameError : ''}
-        label="Username"
-      />
-      <TextInput
-        onChange={handlePasswordChange}
-        onFocus={handlePasswordFocus}
-        errorText={props.passwordTouched ? props.passwordError : ''}
-        type="password"
-        label="Password"
-      />
-      <RaisedButton primary label="Submit" onClick={handleSubmit} />
+    <TitledBox title="Login">
+      <Field name="username" component={FormTextField} floatingLabelText="Username" />
+      <Field name="password" type="password" component={FormTextField} floatingLabelText="Password" />
+      {submitting ?
+        <CircularProgress />
+      :
+        <RaisedButton primary label="Login" onTouchTap={handleSubmit} />
+      }
       <FlatButton label="No Account?" secondary onTouchTap={handleRegister} />
     </TitledBox>
   );
 };
 
-export default LoginForm;
+const mapDispatchToProps = {
+  handleRegister: () => dispatch => dispatch(push('/register')),
+};
+
+export default connect(null, mapDispatchToProps)(reduxForm({
+  form: 'login',
+  validate,
+  onSubmit: fields => login(fields),
+  onSubmitSuccess: (result, dispatch) => {
+    dispatch(push('/'));
+  },
+})(LoginForm));

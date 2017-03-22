@@ -6,10 +6,6 @@ import { request } from './socket';
 export const API_CONNECTED = 'API_CONNECTED';
 export const API_DISCONNECTED = 'API_DISCONNECTED';
 
-export const API_REQUEST_LOGIN = 'API_REQUEST_LOGIN';
-export const API_RESPONSE_LOGIN_SUCCESSFUL = 'API_RESPONSE_LOGIN_SUCCESSFUL';
-export const API_RESPONSE_LOGIN_FAILED = 'API_RESPONSE_LOGIN_FAILED';
-
 export const API_REQUEST_LOGOUT = 'API_REQUEST_LOGOUT';
 export const API_RESPONSE_LOGOUT_SUCCESSFUL = 'API_RESPONSE_LOGOUT_SUCCESSFUL';
 export const API_RESPONSE_LOGOUT_FAILED = 'API_RESPONSE_LOGOUT_FAILED';
@@ -20,13 +16,6 @@ export const API_EVENT_STATE_UPDATE = 'API_EVENT_STATE_UPDATE';
 export const connected = () => ({ type: API_CONNECTED });
 export const disconnected = () => ({ type: API_DISCONNECTED });
 
-export const login = (username, password) => ({
-  type: API_REQUEST_LOGIN,
-  payload: {
-    username,
-    password,
-  },
-});
 
 export const logout = () => ({
   type: API_REQUEST_LOGOUT,
@@ -41,6 +30,21 @@ export const updateState = updates => ({
   type: API_EVENT_STATE_UPDATE,
   payload: updates,
 });
+
+export const login = fields => (
+  request('login', fields)
+    .then((loginResult) => {
+      if (_.has(loginResult, 'error')) {
+        throw new SubmissionError(loginResult.error);
+      } else if (_.has(loginResult, 'result')) {
+        if (_.has(loginResult.result, 'token')) {
+          const token = loginResult.result.token;
+          console.log('received login token: ', token);
+          store.set('loginToken', token);
+        }
+      }
+    })
+);
 
 export const register = fields => (
   request('register', fields)

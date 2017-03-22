@@ -43,7 +43,7 @@ const RegisterForm = (props) => {
       {submitting ?
         <CircularProgress />
       :
-        <RaisedButton primary label="Submit" onTouchTap={handleSubmit} />
+        <RaisedButton primary label="Register" onTouchTap={handleSubmit} />
       }
     </TitledBox>
   );
