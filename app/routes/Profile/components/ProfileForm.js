@@ -16,7 +16,7 @@ class ProfileForm extends React.Component {
   };
 
   render() {
-    const { user } = this.props;
+    const { user, numVisitedBreweries, numBreweries } = this.props;
     const actions = [
       <FlatButton label="Cancel" primary onTouchTap={this.handleClose} />,
       <FlatButton label="Log Out" primary onTouchTap={this.handleLogOut} />,
@@ -29,6 +29,11 @@ class ProfileForm extends React.Component {
         :
           <span>
             { `Hello, ${user.username}.` }
+          </span>
+        }
+        {user &&
+          <span>
+            { `You have visited ${numVisitedBreweries} of ${numBreweries} breweries!`}
           </span>
         }
         <FlatButton onTouchTap={this.handleOpen}>Log Out</FlatButton>

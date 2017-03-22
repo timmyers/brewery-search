@@ -2,9 +2,14 @@ import React from 'react';
 import SimpleLayout from 'layouts/SimpleLayout';
 import ProfileForm from './components/ProfileForm';
 
-const ProfileFormContainer = ({ user, logout }) => (
+const ProfileFormContainer = ({ user, numBreweries, numVisitedBreweries, logout }) => (
   <SimpleLayout>
-    <ProfileForm user={user} logout={logout} />
+    <ProfileForm
+      user={user}
+      numBreweries={numBreweries}
+      numVisitedBreweries={numVisitedBreweries}
+      logout={logout}
+    />
   </SimpleLayout>
 );
 
