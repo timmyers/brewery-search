@@ -21,14 +21,14 @@ export const logout = () => ({
   type: API_REQUEST_LOGOUT,
 });
 
-export const setState = state => ({
+export const setState = (key, state) => ({
   type: API_EVENT_STATE,
-  payload: state,
+  payload: { key, state },
 });
 
-export const updateState = updates => ({
+export const updateState = (key, state) => ({
   type: API_EVENT_STATE_UPDATE,
-  payload: updates,
+  payload: { key, state },
 });
 
 export const login = fields => (

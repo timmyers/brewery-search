@@ -3,7 +3,7 @@ language: node_js
 sudo: false
 
 node_js:
-  - '7.7.2'
+  - '7.7.4'
 
 env:
   - CXX=g++-4.8

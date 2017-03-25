@@ -5,7 +5,7 @@ import ProfileFormContainer from './ProfileFormContainer';
 const mapStateToProps = state => ({
   user: state.api.state.user,
   numBreweries: state.api.state.breweries.length,
-  numVisitedBreweries: state.api.state.visited.length,
+  numVisitedBreweries: state.api.state.breweriesVisited.visited.length,
 });
 
 const mapDispatchToProps = {

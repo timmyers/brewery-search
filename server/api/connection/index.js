@@ -1,5 +1,4 @@
 const debug = require('debug')('app:api:connection');
-const jsonpatch = require('fast-json-patch');
 const WebSocket = require('ws');
 const has = require('has');
 
@@ -14,13 +13,11 @@ class APIConnection {
     debug('ws connection made');
 
     this.ws = ws;
-    this.userState = new UserState();
+    this.userState = new UserState(this);
 
     this.messageNum = 0;
     this.lastAck = -1;
     this.stateSeq = 0;
-    this.state = {};
-    this.patchObserver = jsonpatch.observe(this.state);
 
     this.ackTimeouts = {};
 
@@ -28,25 +25,6 @@ class APIConnection {
       this.onMessage(message);
     });
 
-    this.sendFullState();
-
-      // Setup the timer interval for sending patches
-    this.stateInterval = setInterval(() => {
-      const patches = jsonpatch.generate(this.patchObserver);
-
-      if (!patches.length) {
-        return;
-      }
-
-      this.stateSeq += 1;
-      this.sendMessage({
-        action: 'update',
-        update: patches,
-        stateSeq: this.stateSeq,
-      });
-    }, 100);
-
-    this.setState('user', null);
     this.setState('breweries', getBreweries());
 
     ws.on('close', () => {
@@ -133,7 +111,6 @@ class APIConnection {
   onAck(messageID) {
     if (this.lastAck !== messageID - 1) {
       debug('Missed an ack!');
-      this.sendFullState();
     }
     this.lastAck = messageID;
 
@@ -157,26 +134,29 @@ class APIConnection {
     const msgStr = JSON.stringify(msg);
     debug('sending: %s', msgStr);
 
-    this.ackTimeouts[String(ackNum)] = setTimeout(() => {
-      debug('Timed out on ack ', ackNum);
-      this.sendFullState();
-    }, 3000);
+    // this.ackTimeouts[String(ackNum)] = setTimeout(() => {
+    //   debug('Timed out on ack ', ackNum);
+    // }, 3000);
 
     this.ws.send(msgStr);
   }
 
   setState(key, state) {
-    this.state[key] = state;
-  }
-
-  getState(key) {
-    return this.state[key];
-  }
-
-  sendFullState() {
+    this.stateSeq += 1;
     this.sendMessage({
       action: 'state',
-      state: this.state,
+      key,
+      state,
+      stateSeq: this.stateSeq,
+    });
+  }
+
+  patchState(key, state) {
+    this.stateSeq += 1;
+    this.sendMessage({
+      action: 'update',
+      key,
+      state,
       stateSeq: this.stateSeq,
     });
   }

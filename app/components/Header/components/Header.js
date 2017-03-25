@@ -5,15 +5,15 @@ import HorizontalFlex from 'components/HorizontalFlex';
 
 import HeaderLink from './HeaderLink';
 
-const Header = ({ user }) => (
+const Header = ({ loggedIn }) => (
   <AppBar
     title={<span>Colorado Brewery Map</span>}
     iconElementLeft={<div />}
     iconElementRight={
       <HorizontalFlex>
         <HeaderLink to="/">Home</HeaderLink>
-        <HeaderLink to={user === null ? '/login' : '/profile'}>
-          { user === null ? 'Log In' : 'Profile' }
+        <HeaderLink to={loggedIn ? '/login' : '/profile'}>
+          { loggedIn ? 'Log In' : 'Profile' }
         </HeaderLink>
       </HorizontalFlex>
     }

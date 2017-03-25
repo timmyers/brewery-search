@@ -80,6 +80,7 @@
     "has": "^1.0.1",
     "history": "^4.4.1",
     "html-webpack-plugin": "^2.24.1",
+    "immutability-helper": "^2.1.2",
     "imports-loader": "^0.6.5",
     "ip": "^1.1.4",
     "json-loader": "^0.5.4",
@@ -133,7 +134,7 @@
     "sinon": "^2.0.0-pre.6"
   },
   "engines": {
-    "node": "7.7.2"
+    "node": "7.7.4"
   },
   "license": "ISC",
   "main": "index.js",

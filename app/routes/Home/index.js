@@ -51,7 +51,9 @@ Home.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const breweries = state.api.state.breweries || [];
+  const apiState = state.api.state;
+
+  const breweries = apiState.breweries || [];
   let breweriesOnMap = breweries;
   const bounds = state.map.bounds;
   const hoveredBreweryID = state.map.hoveredBreweryID;
@@ -65,7 +67,8 @@ const mapStateToProps = (state) => {
     ));
   }
 
-  const visited = state.api.state.visited || [];
+  const breweriesVisited = apiState.breweriesVisited;
+  const visited = (breweriesVisited && breweriesVisited.visited) || [];
   breweriesOnMap = breweriesOnMap.map((breweryIn) => {
     const brewery = breweryIn;
     brewery.visited = visited.indexOf(brewery.breweryID) !== -1;

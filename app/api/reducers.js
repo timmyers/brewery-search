@@ -15,14 +15,21 @@ const ACTION_HANDLERS = {
   }),
   [API_EVENT_STATE]: (state, action) => ({
     ...state,
-    state: action.payload,
+    state: {
+      ...state.state,
+      [action.payload.key]: action.payload.state,
+    },
   }),
   [API_EVENT_STATE_UPDATE]: (state, action) => {
-    const newState = JSON.parse(JSON.stringify(state.state));
-    jsonpatch.apply(newState, action.payload);
+    const newState = JSON.parse(JSON.stringify(state.state[action.payload.key]));
+    console.log(newState, action.payload.state);
+    jsonpatch.apply(newState, action.payload.state);
     return {
       ...state,
-      state: newState,
+      state: {
+        ...state.state,
+        [action.payload.key]: newState,
+      },
     };
   },
 };

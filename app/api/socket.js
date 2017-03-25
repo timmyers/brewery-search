@@ -62,9 +62,9 @@ ws.addEventListener('message', (event) => {
         };
         ws.send(JSON.stringify(ack));
 
-        const state = json.state;
-        dispatch(setState(state));
+        dispatch(setState(json.key, json.state));
       } else if (action === 'update') {
+        console.log(json);
         const id = json.id;
 
         const ack = {
@@ -73,8 +73,7 @@ ws.addEventListener('message', (event) => {
         };
         ws.send(JSON.stringify(ack));
 
-        const update = json.update;
-        dispatch(updateState(update));
+        dispatch(updateState(json.key, json.state));
       }
     }
   } catch (e) {

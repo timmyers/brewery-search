@@ -9,10 +9,8 @@ const server = http.createServer(app);
 
 const wss = new WebSocketServer({ server, path: '/api' });
 
-const connections = [];
-
 wss.on('connection', (ws) => {
-  connections.push(new APIConnection(ws));
+  ws.apiConnection = new APIConnection(ws); // eslint-disable-line no-param-reassign
 });
 
 module.exports = { server, app };
