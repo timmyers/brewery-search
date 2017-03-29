@@ -67,3 +67,10 @@ export const visitBrewery = (brewery, visited) => (
       console.log(visitedResult);
     })
 );
+
+export const addBrewery = fields => (
+  request('addBrewery', fields)
+    .then((addBreweryResult) => {
+      console.log(addBreweryResult);
+    })
+);

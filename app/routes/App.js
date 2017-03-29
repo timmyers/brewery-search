@@ -13,6 +13,7 @@ import Home from 'routes/Home';
 import Login from 'routes/Login';
 import Profile from 'routes/Profile';
 import Register from 'routes/Register';
+import AddBrewery from 'routes/AddBrewery';
 
 import { history } from '../store/createStore';
 
@@ -37,6 +38,7 @@ const App = (props) => {
             <Route path="/login" component={Login} />
             <Route path="/profile" component={Profile} />
             <Route path="/register" component={Register} />
+            <Route path="/addBrewery" component={AddBrewery} />
           </VerticalFlex>
         </MuiThemeProvider>
       </ConnectedRouter>

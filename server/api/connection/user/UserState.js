@@ -27,6 +27,7 @@ class UserState {
     this.id = user.id;
     this.username = user.username;
     this.email = user.email;
+    this.admin = user.id === '58d068a21e1352ec1b96394d'; // me!
 
     debug('Setting mongoID: ', this.id);
 
@@ -58,6 +59,7 @@ class UserState {
       loggedIn: { $set: true },
       username: { $set: this.username },
       email: { $set: this.email },
+      admin: { $set: this.admin },
     }));
 
     this.loggedIn = true;

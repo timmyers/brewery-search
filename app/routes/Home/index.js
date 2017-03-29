@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 
 import CoreLayout from 'layouts/CoreLayout';
 import VerticalFlex from 'components/VerticalFlex';
+import Map from 'components/Map';
 
 import { reducer, mapBoundsChanged, childMouseEntered, childMouseLeft } from './Logic';
-import Map from './Components/Map';
 import MapMarker from './Components/MapMarker';
 import BreweryListItem from './Components/BreweryListItem';
 

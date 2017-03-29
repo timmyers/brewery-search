@@ -7,26 +7,25 @@ let breweryCollection;
 let counterCollection;
 let breweries;
 
-function getBreweryIDSequence(callback) {
-  counterCollection.findOneAndUpdate(
+function getBreweryIDSequence() {
+  return counterCollection.findOneAndUpdate(
     { _id: 'Brewery' },
     { $inc: { sequence: 1 } },
-    {},
-    (err, ret) => {
-      if (err) {
-        debug(`Error getting seq no: ${err}`);
-        return;
-      }
-      debug(`Sequnce: ${ret.value.sequence}`);
-      callback(ret.value.sequence);
-    }
-  );
+    {})
+    .then(ret => ret.value.sequence);
 }
 
 function getBreweries() {
   return breweries.map(brewery => (
     _.pickBy(brewery, (value, key) => key !== '_id')
   ));
+}
+
+async function addBrewery(name, lat, lng, imgSrc) {
+  const breweryID = await getBreweryIDSequence();
+  const doc = { name, lat, lng, imgSrc, breweryID };
+
+  return breweryCollection.insertOne(doc);
 }
 
 db.get()
@@ -43,23 +42,24 @@ db.get()
           debug(`Doesn't have ID: ${brewery.name}`);
           debug(`Going to update ID for: ${brewery.name}, ${brewery._id}`);
 
-          getBreweryIDSequence((breweryID) => {
-            breweryCollection.findOneAndUpdate(
-              { _id: brewery._id },
-              { $set: { breweryID } },
-              { returnOriginal: false },
-              (updateIDErr, ret) => {
-                if (updateIDErr) {
-                  debug(`Error updating seq no: ${updateIDErr}`);
-                  return;
+          getBreweryIDSequence()
+            .then((breweryID) => {
+              breweryCollection.findOneAndUpdate(
+                { _id: brewery._id },
+                { $set: { breweryID } },
+                { returnOriginal: false },
+                (updateIDErr, ret) => {
+                  if (updateIDErr) {
+                    debug(`Error updating seq no: ${updateIDErr}`);
+                    return;
+                  }
+                  debug(`Updated brewery: ${JSON.stringify(ret)}`);
                 }
-                debug(`Updated brewery: ${JSON.stringify(ret)}`);
-              }
-            );
-          });
+              );
+            });
         }
       });
     });
   });
 
-module.exports = { getBreweries };
+module.exports = { getBreweries, addBrewery };

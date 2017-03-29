@@ -7,6 +7,7 @@ const { getBreweries } = require('../db').brewery;
 const UserState = require('./user/UserState');
 
 require('./user');
+require('./brewery');
 
 class APIConnection {
   constructor(ws) {
